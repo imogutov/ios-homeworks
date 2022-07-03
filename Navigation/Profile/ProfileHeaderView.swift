@@ -11,6 +11,7 @@ class ProfileHeaderView: UIView {
         avatarImageView.layer.borderWidth = 3
         avatarImageView.layer.borderColor = UIColor.white.cgColor
         avatarImageView.translatesAutoresizingMaskIntoConstraints = false
+        avatarImageView.isUserInteractionEnabled = true
         return avatarImageView
     }()
     
@@ -62,31 +63,58 @@ class ProfileHeaderView: UIView {
         return setStatusButton
     }()
     
-    func layout() {
-        addSubview(avatarImageView)
+    private var avatarImageViewLeading = NSLayoutConstraint()
+    private var avatarImageViewTop = NSLayoutConstraint()
+    private var avatarImageViewWidth = NSLayoutConstraint()
+    private var avatarImageViewHeigh = NSLayoutConstraint()
+    
+    private func setupGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapAction))
+        avatarImageView.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func tapAction() {
+        avatarImageView.isUserInteractionEnabled = true
+        self.layoutIfNeeded()
+        UIView.animate(withDuration: 3.0, delay: 0, options: .curveEaseInOut, animations: {
+            self.avatarImageViewWidth.constant = UIScreen.main.bounds.width / 2
+            self.avatarImageViewHeigh.constant = UIScreen.main.bounds.width / 2
+            self.avatarImageView.center = self.center
+            self.avatarImageView.transform = CGAffineTransform(scaleX: 2, y: 2)
+            
+        }, completion: { _ in
+            print("animation done")
+        })
+    }
+    
+    private func layout() {
+        
         addSubview(fullNameLabel)
         addSubview(setStatusButton)
         addSubview(statusLabel)
         addSubview(statusTextField)
+        addSubview(avatarImageView)
+        
+        avatarImageViewLeading = avatarImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16)
+        avatarImageViewTop = avatarImageView.topAnchor.constraint(equalTo: topAnchor, constant: 16)
+        avatarImageViewHeigh = avatarImageView.heightAnchor.constraint(equalToConstant: 100)
+        avatarImageViewWidth = avatarImageView.widthAnchor.constraint(equalToConstant: 100)
         
         NSLayoutConstraint.activate([
-            avatarImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            avatarImageView.topAnchor.constraint(equalTo: topAnchor, constant: 16),
-            avatarImageView.widthAnchor.constraint(equalToConstant: 100),
-            avatarImageView.heightAnchor.constraint(equalToConstant: 100),
-        
+            avatarImageViewTop, avatarImageViewLeading, avatarImageViewWidth, avatarImageViewHeigh,
+            
             fullNameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 16),
             fullNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             fullNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 27),
-        
+            
             setStatusButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             setStatusButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             setStatusButton.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 16),
             setStatusButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
-        
+            
             statusLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 16),
             statusLabel.topAnchor.constraint(equalTo: fullNameLabel.bottomAnchor, constant: 5),
-        
+            
             statusTextField.widthAnchor.constraint(equalTo: widthAnchor, constant: -148),
             statusTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 132),
             statusTextField.bottomAnchor.constraint(equalTo: setStatusButton.topAnchor, constant: -16),
@@ -98,6 +126,7 @@ class ProfileHeaderView: UIView {
         super.init(frame: frame)
         backgroundColor = .systemGray6
         layout()
+        setupGesture()
     }
     
     required init?(coder: NSCoder) {
@@ -114,5 +143,6 @@ class ProfileHeaderView: UIView {
         statusLabel.text = statusTextField.text
     }
 }
+
 
 

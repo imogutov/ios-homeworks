@@ -8,6 +8,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     let profileImage = UIImage(systemName: "person.fill")
     let feedImage = UIImage(systemName: "house.fill")
+    let gestureImage = UIImage(systemName: "move.3d")
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         self.window = UIWindow(frame: UIScreen.main.bounds)
@@ -25,10 +26,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return UINavigationController(rootViewController: logInVC)
         }
         
+        func createGestureViewController() -> UINavigationController {
+            let gestureVC = GestureViewController()
+            gestureVC.tabBarItem = UITabBarItem(title: "Gestures", image: gestureImage, tag: 2)
+            return UINavigationController(rootViewController: gestureVC)
+        }
+        
         func createTabBarController() -> UITabBarController {
             let tabBarController = UITabBarController()
             UITabBar.appearance().backgroundColor = .systemGray6
-            tabBarController.viewControllers = [createFeedViewController(), createLogInViewController()]
+            tabBarController.viewControllers = [createFeedViewController(), createLogInViewController(), createGestureViewController()]
             return tabBarController
         }
         
