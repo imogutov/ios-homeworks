@@ -1,14 +1,14 @@
 
 import Foundation
 
-struct Post {
-    var author: String
-    var description: String
-    var image: String
-    var likes: Int
-    var views: Int
+public struct Post {
+    public var author: String
+    public var description: String
+    public var image: String
+    public var likes: Int
+    public var views: Int
     
-    static func makePosts() -> [Post] {
+    public static func makePosts() -> [Post] {
         var post = [Post]()
         post.append(Post(author: "User1", description: "Сотрудники лаборатории DxOMark опубликовали результаты тестирования камеры нового iPhone SE. Смартфон оснащается одной камерой на 12 Мп, но поддерживает все фирменные функции, такие как Deep Fusion, Smart HDR и Photographic Styles. Специалисты рассказали о сильных и слабых сторонах этого аппарата при съёмке фото и видео.", image: "post2image", likes: 22, views: 33))
         post.append(Post(author: "User2", description: "Toyota считает, что водородное топливо может быть хорошей альтернативой электричеству, когда речь заходит об экологически чистых источниках питания. В компании придумали способ хранения и доставки этого взрывоопасного источника энергии, разработав специальные водородные картриджи. ", image: "post1image", likes: 11, views: 44))
@@ -17,6 +17,8 @@ struct Post {
         return post
     }
 }
+
+
 
 
 

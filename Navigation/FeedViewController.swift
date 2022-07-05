@@ -1,9 +1,8 @@
 
 import UIKit
+import StorageService
 
 class FeedViewController: UIViewController {
-    
-    var post = Post(author: "", description: "", image: "", likes: 0, views: 0)
     
     private lazy var button: UIButton = {
         let button = UIButton()
@@ -26,7 +25,7 @@ class FeedViewController: UIViewController {
     @objc private func buttonPressed() {
         let postViewController = PostViewController()
         self.navigationController?.pushViewController(postViewController, animated: true)
-        postViewController.titlePost = post.author
+        postViewController.titlePost = "Заголовок поста"
     }
     
     func configureStackView() {
