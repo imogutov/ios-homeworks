@@ -1,6 +1,7 @@
 
 import UIKit
 import StorageService
+import iOSIntPackage
 
 class PostTableViewCell: UITableViewCell {
     
@@ -15,6 +16,7 @@ class PostTableViewCell: UITableViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.contentMode = .scaleAspectFit
         view.backgroundColor = .black
+        
         return view
     }()
     
@@ -60,6 +62,9 @@ class PostTableViewCell: UITableViewCell {
     
     func setupCell(post: Post) {
         imagePostView.image = UIImage(named: "\(post.image)")
+        let imageProcessor = ImageProcessor()
+        let image = imagePostView.image
+        imageProcessor.processImage(sourceImage: image!, filter: .colorInvert, completion: { _ in imagePostView.image = image }) 
         authorLabel.text = post.author
         descriptionLabel.text = post.description
         likesLabel.text = "Likes: \(post.likes)"
