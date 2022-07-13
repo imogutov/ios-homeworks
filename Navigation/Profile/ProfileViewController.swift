@@ -5,10 +5,22 @@ import SnapKit
 
 class ProfileViewController: UIViewController {
     
+    var userService: UserService
+    var login: String
+    
+    init(userService: UserService, login: String) {
+        self.userService = userService
+        self.login = login
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        //        tableView.backgroundColor = .systemRed
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: String(describing: PostTableViewCell.self))
@@ -23,13 +35,11 @@ class ProfileViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
         view.backgroundColor = .white
         layout()
-        
 #if DEBUG
         view.backgroundColor = .systemYellow
 #else
         view.backgroundColor = .systemGreen
 #endif
-        
     }
     
     private func layout() {
@@ -42,7 +52,6 @@ class ProfileViewController: UIViewController {
         }
     }
 }
-
 
 extension ProfileViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

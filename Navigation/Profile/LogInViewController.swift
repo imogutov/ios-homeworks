@@ -3,6 +3,8 @@ import UIKit
 
 class LogInViewController: UIViewController {
     
+    let userService = CurrentUserService()
+    
     private lazy var logoImageView: UIImageView = {
         let logoImageView = UIImageView(image: UIImage(named: "logo"))
         logoImageView.layer.masksToBounds = true
@@ -22,7 +24,7 @@ class LogInViewController: UIViewController {
         logoImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 120).isActive = true
     }
     
-    private lazy var emailTextField: UITextField = {
+    public var emailTextField: UITextField = {
         let emailTextField = UITextField()
         emailTextField.translatesAutoresizingMaskIntoConstraints = false
         emailTextField.placeholder = "Email or phone"
@@ -97,8 +99,17 @@ class LogInViewController: UIViewController {
     }
     
     @objc private func buttonPressed() {
-        let profileViewController = ProfileViewController()
-        self.navigationController?.pushViewController(profileViewController, animated: true)
+#if DEBUG
+        let userService = TestUserService()
+#else
+        let userService = CurrentUserService()
+#endif
+        let profileViewController = ProfileViewController(userService: userService, login: emailTextField.text!)
+        if emailTextField.text == userService.user.fullName {
+            self.navigationController?.pushViewController(profileViewController, animated: true)
+        } else {
+            print("Wrong username")
+        }
     }
     
     private func setupButton() {
@@ -154,7 +165,7 @@ class LogInViewController: UIViewController {
         nc.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         nc.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-
+    
     @objc private func kbdShow(notification: NSNotification) {
         if let kbdSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             scrollView.contentInset.bottom = kbdSize.height
