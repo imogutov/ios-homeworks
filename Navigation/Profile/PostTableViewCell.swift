@@ -1,6 +1,7 @@
 
 import UIKit
 import StorageService
+import iOSIntPackage
 
 class PostTableViewCell: UITableViewCell {
     
@@ -15,6 +16,7 @@ class PostTableViewCell: UITableViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.contentMode = .scaleAspectFit
         view.backgroundColor = .black
+        
         return view
     }()
     
@@ -58,12 +60,22 @@ class PostTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public func filterImage(_ sourceImage: UIImage) -> UIImage {
+            let imageProcessor = ImageProcessor()
+            var image = UIImage()
+        imageProcessor.processImage(sourceImage: sourceImage, filter: .posterize, completion: { filteredImage in
+                image = filteredImage ?? sourceImage
+            })
+            return image
+        }
+    
     func setupCell(post: Post) {
         imagePostView.image = UIImage(named: "\(post.image)")
         authorLabel.text = post.author
         descriptionLabel.text = post.description
         likesLabel.text = "Likes: \(post.likes)"
         viewsLabel.text = "Views: \(post.views)"
+        imagePostView.image = filterImage(imagePostView.image!)
     }
     
     private func layout() {
