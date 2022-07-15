@@ -4,8 +4,11 @@ import UIKit
 
 class ProfileHeaderView: UIView {
     
+    let userService = CurrentUserService()
+    
     private lazy var avatarImageView: UIImageView = {
-        let avatarImageView = UIImageView(image: UIImage(named: "cartoon-cat"))
+        let avatarImageView = UIImageView()
+        avatarImageView.image = userService.user.avatar
         avatarImageView.layer.masksToBounds = true
         avatarImageView.layer.cornerRadius = 50
         avatarImageView.layer.borderWidth = 3
@@ -16,7 +19,7 @@ class ProfileHeaderView: UIView {
     
     private lazy var fullNameLabel: UILabel = {
         let fullNameLabel = UILabel()
-        fullNameLabel.text = "Hipster Cat"
+        fullNameLabel.text = userService.user.fullName
         fullNameLabel.font = UIFont.boldSystemFont(ofSize: 18)
         fullNameLabel.translatesAutoresizingMaskIntoConstraints = false
         return fullNameLabel
@@ -24,7 +27,7 @@ class ProfileHeaderView: UIView {
     
     private lazy var statusLabel: UILabel = {
         let statusLabel = UILabel()
-        statusLabel.text = "Listening to music"
+        statusLabel.text = userService.user.status
         statusLabel.textColor = UIColor.gray
         statusLabel.font = UIFont.systemFont(ofSize: 14)
         statusLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -114,5 +117,6 @@ class ProfileHeaderView: UIView {
         statusLabel.text = statusTextField.text
     }
 }
+
 
 
