@@ -2,12 +2,22 @@
 import UIKit
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelegate {
     
     var window: UIWindow?
     
     let profileImage = UIImage(systemName: "person.fill")
     let feedImage = UIImage(systemName: "house.fill")
+    let loginInspector = LoginInspector()
+    
+    
+    func checkLogin(login: String, password: String) -> Bool {
+        if loginInspector.checkLogin(login: login, password: password) == true {
+            return true
+        }else{
+            return false
+        }
+    }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         self.window = UIWindow(frame: UIScreen.main.bounds)
@@ -22,6 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         func createLogInViewController() -> UINavigationController {
             let logInVC = LogInViewController()
             logInVC.tabBarItem = UITabBarItem(title: "Profile", image: profileImage, tag: 1)
+            logInVC.delegate = self
             return UINavigationController(rootViewController: logInVC)
         }
         
@@ -37,4 +48,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
+    
+    
 }
+
+
+    
+    
+    
+
+
+
+

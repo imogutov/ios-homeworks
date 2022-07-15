@@ -1,7 +1,14 @@
 
 import UIKit
 
+protocol LoginViewControllerDelegate: AnyObject {
+    func checkLogin(login: String, password: String) -> Bool
+    //    func checkPswrd(password: String) -> Bool
+}
+
 class LogInViewController: UIViewController {
+    
+    weak var delegate: LoginViewControllerDelegate?
     
     let userService = CurrentUserService()
     
@@ -99,16 +106,24 @@ class LogInViewController: UIViewController {
     }
     
     @objc private func buttonPressed() {
-#if DEBUG
-        let userService = TestUserService()
-#else
-        let userService = CurrentUserService()
-#endif
+        
+        #if DEBUG
+                let userService = TestUserService()
+        #else
+                let userService = CurrentUserService()
+        #endif
+        
         let profileViewController = ProfileViewController(userService: userService, login: emailTextField.text!)
-        if emailTextField.text == userService.user.fullName {
+       
+        if delegate?.checkLogin(login: emailTextField.text!, password: passwordTextField.text!) == true {
             self.navigationController?.pushViewController(profileViewController, animated: true)
         } else {
-            print("Wrong username")
+            let alert = UIAlertController(title: "Notice", message: "Wrong username or password", preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Retry", style: .default, handler: { action in
+                print("Retry login")
+            }))
+            present(alert, animated: true)
         }
     }
     
