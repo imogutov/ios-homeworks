@@ -8,15 +8,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
     
     let profileImage = UIImage(systemName: "person.fill")
     let feedImage = UIImage(systemName: "house.fill")
-    let loginInspector = LoginInspector()
+    //   let loginInspector = LoginInspector()
+    let logInspCompFactory = MakeLoginInspector()
+    lazy var loginInspector = logInspCompFactory.createLoginInspector()
     
     
     func checkLogin(login: String, password: String) -> Bool {
-        if loginInspector.checkLogin(login: login, password: password) == true {
-            return true
-        }else{
-            return false
-        }
+        loginInspector.checkLogin(login: login, password: password)
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -53,9 +51,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
 }
 
 
-    
-    
-    
+
+
+
 
 
 
