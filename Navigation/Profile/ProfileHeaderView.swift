@@ -51,11 +51,11 @@ class ProfileHeaderView: UIView {
         return statusTextField
     }()
     
-    private lazy var setStatusButton: UIButton = {
-        let setStatusButton = UIButton()
+    private lazy var setStatusButton: CustomButton = {
+        let setStatusButton = CustomButton(title: "Set status", titleColor: .white)
         setStatusButton.backgroundColor = .systemBlue
-        setStatusButton.setTitle("Set status", for: .normal)
-        setStatusButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+//        setStatusButton.setTitle("Set status", for: .normal)
+//        setStatusButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         setStatusButton.translatesAutoresizingMaskIntoConstraints = false
         setStatusButton.layer.cornerRadius = 4
         setStatusButton.layer.shadowOffset = CGSize(width: 4, height: 4)
@@ -101,10 +101,19 @@ class ProfileHeaderView: UIView {
         super.init(frame: frame)
         backgroundColor = .systemGray6
         layout()
+        buttonAction()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func buttonAction() {
+        setStatusButton.action = { [weak self] in
+            print("Status")
+            self!.statusLabel.text = self!.statusTextField.text
+            
+        }
     }
     
     @objc func statusTextChanged(_ textField: UITextField) {
@@ -112,10 +121,10 @@ class ProfileHeaderView: UIView {
         print(statusText)
     }
     
-    @objc func buttonPressed() {
-        print("Status")
-        statusLabel.text = statusTextField.text
-    }
+//    @objc func buttonPressed() {
+//        print("Status")
+//        statusLabel.text = statusTextField.text
+//    }
 }
 
 

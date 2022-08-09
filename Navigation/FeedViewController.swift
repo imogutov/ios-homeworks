@@ -4,28 +4,76 @@ import StorageService
 
 class FeedViewController: UIViewController {
     
-    private lazy var button: UIButton = {
-        let button = UIButton()
+    private var post: Post?
+    private let model = Model()
+    private let stackView = UIStackView()
+    
+    private lazy var button: CustomButton = {
+        let button = CustomButton(title: "Кнопка 1", titleColor: .white)
         button.backgroundColor = .systemBlue
-        button.setTitle("Кнопка 1", for: .normal)
-        button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        button.layer.cornerRadius = 6
+        return button
+    }()
+    private lazy var button1: CustomButton = {
+        let button = CustomButton(title: "Кнопка 2", titleColor: .white)
+        button.backgroundColor = .systemBlue
+        button.layer.cornerRadius = 6
         return button
     }()
     
-    private lazy var button1: UIButton = {
-        let button1 = UIButton()
-        button1.backgroundColor = .systemBlue
-        button1.setTitle("Кнопка 2", for: .normal)
-        button1.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-        return button1
+    private lazy var checkButton: CustomButton = {
+        let button = CustomButton(title: "Проверить слово", titleColor: .white)
+        button.backgroundColor = .systemBlue
+        button.layer.cornerRadius = 6
+        return button
     }()
     
-    let stackView = UIStackView()
+    private lazy var customTextField: CustomTextField = {
+        let textField = CustomTextField(placeholder: "Введите слово для проверки")
+        textField.layer.borderWidth = 0.5
+        textField.layer.cornerRadius = 6
+        textField.textColor = .black
+        return textField
+    }()
     
-    @objc private func buttonPressed() {
-        let postViewController = PostViewController()
-        self.navigationController?.pushViewController(postViewController, animated: true)
-        postViewController.titlePost = "Заголовок поста"
+    private lazy var checkResultLabel: UILabel = {
+        let label = UILabel()
+        label.alpha = 1
+        label.layer.cornerRadius = 6
+        label.textAlignment = .center
+        label.text = "Результат проверки"
+        return label
+    }()
+    
+    private func buttonsAction() {
+        button.action = { [weak self] in
+            let postViewController = PostViewController()
+            self?.navigationController?.pushViewController(postViewController, animated: true)
+            postViewController.titlePost = "Заголовок поста"
+        }
+        
+        button1.action = { [weak self] in
+            let postViewController = PostViewController()
+            self?.navigationController?.pushViewController(postViewController, animated: true)
+            postViewController.titlePost = "Заголовок поста"
+        }
+        
+        checkButton.action = { [weak self] in
+            guard let text = self?.customTextField.text, !text.isEmpty else { return }
+            self?.model.check(word: text)
+        }
+    }
+    
+    @objc private func checkTheWord(){
+        if self.model.check {
+            checkResultLabel.text = "Верно"
+            checkResultLabel.textColor = .white
+            checkResultLabel.backgroundColor = .systemGreen
+        } else {
+            checkResultLabel.text = "Неверно"
+            checkResultLabel.textColor = .white
+            checkResultLabel.backgroundColor = .systemRed
+        }
     }
     
     func configureStackView() {
@@ -46,11 +94,16 @@ class FeedViewController: UIViewController {
     func addButtonsToStackView() {
         stackView.addArrangedSubview(button)
         stackView.addArrangedSubview(button1)
+        stackView.addArrangedSubview(customTextField)
+        stackView.addArrangedSubview(checkButton)
+        stackView.addArrangedSubview(checkResultLabel)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
         configureStackView()
+        buttonsAction()
+        NotificationCenter.default.addObserver(self, selector: #selector(checkTheWord), name: NSNotification.Name("myEvent"), object: nil)
     }
 }

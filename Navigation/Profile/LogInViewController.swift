@@ -60,14 +60,14 @@ class LogInViewController: UIViewController {
         return passwordTextField
     }()
     
-    private lazy var button: UIButton = {
-        let button = UIButton()
+    private lazy var button: CustomButton = {
+        let button = CustomButton(title: "Log In", titleColor: .white)
         button.setBackgroundImage(UIImage(named: "blue_pixel"), for: UIControl.State.normal)
         button.layer.cornerRadius = 10
         button.clipsToBounds = true
-        button.setTitle("Log In", for: .normal)
+//        button.setTitle("Log In", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+//        button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         switch button.state {
         case .normal: button.alpha = 1
         case .selected: button.alpha = 0.8
@@ -90,7 +90,32 @@ class LogInViewController: UIViewController {
         return scrollView
     }()
     
-    func configureStackView() {
+    private func buttonAction() {
+        button.action = { [weak self] in
+
+            #if DEBUG
+                    let userService = TestUserService()
+            #else
+                    let userService = CurrentUserService()
+            #endif
+
+            let profileViewController = ProfileViewController(userService: userService, login: self!.emailTextField.text!)
+
+            if self!.delegate?.checkLogin(login: self!.emailTextField.text!, password: self!.passwordTextField.text!) == true {
+                self!.navigationController?.pushViewController(profileViewController, animated: true)
+            } else {
+                let alert = UIAlertController(title: "Notice", message: "Wrong username or password", preferredStyle: .alert)
+
+                alert.addAction(UIAlertAction(title: "Retry", style: .default, handler: { action in
+                    print("Retry login")
+                }))
+                self!.present(alert, animated: true)
+            }
+
+        }
+    }
+    
+    private func configureStackView() {
         contentView.addSubview(stackView)
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -105,27 +130,27 @@ class LogInViewController: UIViewController {
         stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16).isActive = true
     }
     
-    @objc private func buttonPressed() {
-        
-        #if DEBUG
-                let userService = TestUserService()
-        #else
-                let userService = CurrentUserService()
-        #endif
-        
-        let profileViewController = ProfileViewController(userService: userService, login: emailTextField.text!)
-       
-        if delegate?.checkLogin(login: emailTextField.text!, password: passwordTextField.text!) == true {
-            self.navigationController?.pushViewController(profileViewController, animated: true)
-        } else {
-            let alert = UIAlertController(title: "Notice", message: "Wrong username or password", preferredStyle: .alert)
-            
-            alert.addAction(UIAlertAction(title: "Retry", style: .default, handler: { action in
-                print("Retry login")
-            }))
-            present(alert, animated: true)
-        }
-    }
+//    @objc private func buttonPressed() {
+//
+//        #if DEBUG
+//                let userService = TestUserService()
+//        #else
+//                let userService = CurrentUserService()
+//        #endif
+//
+//        let profileViewController = ProfileViewController(userService: userService, login: emailTextField.text!)
+//
+//        if delegate?.checkLogin(login: emailTextField.text!, password: passwordTextField.text!) == true {
+//            self.navigationController?.pushViewController(profileViewController, animated: true)
+//        } else {
+//            let alert = UIAlertController(title: "Notice", message: "Wrong username or password", preferredStyle: .alert)
+//
+//            alert.addAction(UIAlertAction(title: "Retry", style: .default, handler: { action in
+//                print("Retry login")
+//            }))
+//            present(alert, animated: true)
+//        }
+//    }
     
     private func setupButton() {
         contentView.addSubview(button)
@@ -165,6 +190,7 @@ class LogInViewController: UIViewController {
         setupLogoIV()
         configureStackView()
         setupButton()
+        buttonAction()
     }
     
     override func viewWillAppear(_ animated: Bool) {
