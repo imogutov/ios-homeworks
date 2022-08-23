@@ -8,7 +8,7 @@ protocol LoginViewControllerDelegate: AnyObject {
 
 class LogInViewController: UIViewController {
     
-    weak var delegate: LoginViewControllerDelegate?
+    var delegate: LoginViewControllerDelegate?
     
     let userService = CurrentUserService()
     

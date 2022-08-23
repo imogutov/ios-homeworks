@@ -2,20 +2,20 @@
 import UIKit
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     
 //    let profileImage = UIImage(systemName: "person.fill")
 //    let feedImage = UIImage(systemName: "house.fill")
     //   let loginInspector = LoginInspector()
-    let logInspCompFactory = MakeLoginInspector()
-    lazy var loginInspector = logInspCompFactory.createLoginInspector()
-    
-    
-    func checkLogin(login: String, password: String) -> Bool {
-        loginInspector.checkLogin(login: login, password: password)
-    }
+//    let logInspCompFactory = MakeLoginInspector()
+//    lazy var loginInspector = logInspCompFactory.createLoginInspector()
+//
+//
+//    func checkLogin(login: String, password: String) -> Bool {
+//        loginInspector.checkLogin(login: login, password: password)
+//    }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         self.window = UIWindow(frame: UIScreen.main.bounds)
