@@ -1,6 +1,7 @@
 
 
 import Foundation
+import UIKit
 
 struct Photo {
     var imageName: String
@@ -27,6 +28,26 @@ struct Photo {
     Photo(imageName: "photo19"),
     Photo(imageName: "photo20")
  ]
+
+let photo1 = UIImage(named: "photo1")
+let photo2 = UIImage(named: "photo2")
+let photo3 = UIImage(named: "photo3")
+let photo4 = UIImage(named: "photo4")
+let photo5 = UIImage(named: "photo5")
+let photo6 = UIImage(named: "photo6")
+let photo7 = UIImage(named: "photo7")
+let photo8 = UIImage(named: "photo8")
+let photo9 = UIImage(named: "photo9")
+let photo10 = UIImage(named: "photo10")
+let photo11 = UIImage(named: "photo11")
+let photo12 = UIImage(named: "photo12")
+let photo13 = UIImage(named: "photo13")
+let photo14 = UIImage(named: "photo14")
+let photo15 = UIImage(named: "photo15")
+let userImages: [UIImage] = [photo1!, photo2!,photo3!,photo4!,photo5!,photo6!,photo7!,photo8!,photo9!, photo10!, photo11!, photo12!, photo13!, photo14!, photo15!]
+
+    
+
     
 
 
