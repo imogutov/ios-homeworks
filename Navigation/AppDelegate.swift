@@ -20,8 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
-        let appConfiguration: AppConfiguration = .peoples
-        NetworkService.request(for: appConfiguration)
+//        let appConfiguration: AppConfiguration = .peoples
+//        NetworkService.request(for: appConfiguration)
 //        
 //        func createFeedViewController() -> UINavigationController {
 //            let feedVC = FeedViewController()
