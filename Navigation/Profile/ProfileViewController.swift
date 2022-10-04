@@ -1,7 +1,5 @@
 
 import UIKit
-import StorageService
-import SnapKit
 
 class ProfileViewController: UIViewController {
     
@@ -44,12 +42,12 @@ class ProfileViewController: UIViewController {
     
     private func layout() {
         view.addSubview(tableView)
-        tableView.snp.makeConstraints { maker in
-            maker.left.equalToSuperview()
-            maker.right.equalToSuperview()
-            maker.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            maker.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-        }
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            ])
     }
 }
 
