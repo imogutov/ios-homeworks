@@ -1,26 +1,36 @@
 
 import UIKit
 
-protocol LoginViewControllerDelegate: AnyObject {
-    func checkLogin(login: String, password: String) -> Bool
-    //    func checkPswrd(password: String) -> Bool
-}
-
 class LogInViewController: UIViewController {
     
     var delegate: LoginViewControllerDelegate?
     
     let userService = CurrentUserService()
     
+    var signUp: Bool = true {
+        willSet {
+            if newValue {
+                signUpButton.setTitle("Sign Up", for: .normal)
+                logInLabel.text = "Already signed up?"
+                buttonLogIn.setTitle("Log In", for: .normal)
+                print("singUP")
+            } else {
+                signUpButton.setTitle("Log In", for: .normal)
+                logInLabel.text = "Do you want to register?"
+                buttonLogIn.setTitle("Sing Up", for: .normal)
+                print("logIN")
+            }
+        }
+    }
+    
     private lazy var logoImageView: UIImageView = {
         let logoImageView = UIImageView(image: UIImage(named: "logo"))
         logoImageView.layer.masksToBounds = true
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
-        
         return logoImageView
     }()
     
-    let stackView = UIStackView()
+    private let stackView = UIStackView()
     
     private func setupLogoIV() {
         let logoImageView = logoImageView
@@ -31,7 +41,7 @@ class LogInViewController: UIViewController {
         logoImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 120).isActive = true
     }
     
-    public var emailTextField: UITextField = {
+    private var emailTextField: UITextField = {
         let emailTextField = UITextField()
         emailTextField.translatesAutoresizingMaskIntoConstraints = false
         emailTextField.placeholder = "Email or phone"
@@ -60,14 +70,18 @@ class LogInViewController: UIViewController {
         return passwordTextField
     }()
     
-    private lazy var button: CustomButton = {
-        let button = CustomButton(title: "Log In", titleColor: .white)
+    private lazy var buttonLogIn: CustomButton = {
+        let button = CustomButton(title: "Log In", titleColor: .systemBlue)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private lazy var signUpButton: CustomButton = {
+        let button = CustomButton(title: "Sign Up", titleColor: .white)
         button.setBackgroundImage(UIImage(named: "blue_pixel"), for: UIControl.State.normal)
         button.layer.cornerRadius = 10
         button.clipsToBounds = true
-//        button.setTitle("Log In", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-//        button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         switch button.state {
         case .normal: button.alpha = 1
         case .selected: button.alpha = 0.8
@@ -76,6 +90,14 @@ class LogInViewController: UIViewController {
         default: break
         }
         return button
+    }()
+    
+    private lazy var logInLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Already signed up?"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .black
+        return label
     }()
     
     private let contentView: UIView = {
@@ -90,28 +112,56 @@ class LogInViewController: UIViewController {
         return scrollView
     }()
     
+    private func alertToFillTextField() {
+        let alert = UIAlertController(title: "You left a few fields blank", message: "Try again", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func alertAuthorization(message : String) {
+        let alert = UIAlertController(title: "Error!", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Try again", style: .default))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    
     private func buttonAction() {
-        button.action = { [weak self] in
-
-            #if DEBUG
-                    let userService = TestUserService()
-            #else
-                    let userService = CurrentUserService()
-            #endif
-
-            let profileViewController = ProfileViewController(userService: userService, login: self!.emailTextField.text!)
-
-            if self!.delegate?.checkLogin(login: self!.emailTextField.text!, password: self!.passwordTextField.text!) == true {
-                self!.navigationController?.pushViewController(profileViewController, animated: true)
-            } else {
-                let alert = UIAlertController(title: "Notice", message: "Wrong username or password", preferredStyle: .alert)
-
-                alert.addAction(UIAlertAction(title: "Retry", style: .default, handler: { action in
-                    print("Retry login")
-                }))
-                self!.present(alert, animated: true)
+        signUpButton.action = { [weak self] in
+#if DEBUG
+            let userService = TestUserService()
+#else
+            let userService = CurrentUserService()
+#endif
+            if self!.emailTextField.text?.isEmpty == true || self!.passwordTextField.text?.isEmpty == true {
+                self?.alertToFillTextField()
             }
-
+            if self?.signUp == true {
+                self?.delegate?.signUp(email: self!.emailTextField.text!, password: self!.passwordTextField.text!) { result in
+                    if result == "Success registration" {
+                        let alert = UIAlertController(title: "Done!", message: "Regisrtation succesfull", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Please log in", style: .default))
+                        self?.present(alert, animated: true, completion: nil)
+                        self?.signUp = !self!.signUp
+                    } else {
+                        self?.alertAuthorization(message: result)
+                    }
+                }
+            }
+            
+            if self?.signUp == false {
+                self?.delegate?.checkCredentials(email: self!.emailTextField.text!, password: self!.passwordTextField.text!) { result in
+                    if result == "Success authorization" {
+                        let profileViewController = ProfileViewController(userService: userService, login: self!.emailTextField.text!)
+                        self?.navigationController?.pushViewController(profileViewController, animated: true)
+                    } else {
+                        self?.alertAuthorization(message: result)
+                    }
+                }
+            }
+        }
+        
+        buttonLogIn.action = { [weak self] in
+            self?.signUp = !self!.signUp
         }
     }
     
@@ -130,35 +180,24 @@ class LogInViewController: UIViewController {
         stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16).isActive = true
     }
     
-//    @objc private func buttonPressed() {
-//
-//        #if DEBUG
-//                let userService = TestUserService()
-//        #else
-//                let userService = CurrentUserService()
-//        #endif
-//
-//        let profileViewController = ProfileViewController(userService: userService, login: emailTextField.text!)
-//
-//        if delegate?.checkLogin(login: emailTextField.text!, password: passwordTextField.text!) == true {
-//            self.navigationController?.pushViewController(profileViewController, animated: true)
-//        } else {
-//            let alert = UIAlertController(title: "Notice", message: "Wrong username or password", preferredStyle: .alert)
-//
-//            alert.addAction(UIAlertAction(title: "Retry", style: .default, handler: { action in
-//                print("Retry login")
-//            }))
-//            present(alert, animated: true)
-//        }
-//    }
-    
     private func setupButton() {
-        contentView.addSubview(button)
-        button.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 16).isActive = true
-        button.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        button.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16).isActive = true
-        button.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16).isActive = true
-        button.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        contentView.addSubview(signUpButton)
+        signUpButton.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 16).isActive = true
+        signUpButton.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        signUpButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16).isActive = true
+        signUpButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16).isActive = true
+        signUpButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+    }
+    
+    private func setupLabel() {
+        view.addSubview(logInLabel)
+        logInLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16).isActive = true
+        logInLabel.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 100).isActive = true
+        logInLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        view.addSubview(buttonLogIn)
+        buttonLogIn.leadingAnchor.constraint(equalTo: logInLabel.trailingAnchor, constant: 6).isActive = true
+        buttonLogIn.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 100).isActive = true
+        buttonLogIn.heightAnchor.constraint(equalToConstant: 20).isActive = true
     }
     
     private func configureContentView() {
@@ -189,8 +228,9 @@ class LogInViewController: UIViewController {
         configureContentView()
         setupLogoIV()
         configureStackView()
-        setupButton()
         buttonAction()
+        setupLabel()
+        setupButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -1,13 +1,13 @@
 import UIKit
 
-class MainTabbarViewController: UITabBarController, LoginViewControllerDelegate {
+class MainTabbarViewController: UITabBarController {
     
-    let logInspCompFactory = MakeLoginInspector()
-    lazy var loginInspector = logInspCompFactory.createLoginInspector()
-    
-    func checkLogin(login: String, password: String) -> Bool {
-        loginInspector.checkLogin(login: login, password: password)
-    }
+//    let logInspCompFactory = MakeLoginInspector()
+//    lazy var loginInspector = logInspCompFactory.createLoginInspector()
+//    
+//    func checkLogin(login: String, password: String) -> Bool {
+//        loginInspector.checkLogin(login: login, password: password)
+//    }
     
 
     private let feedVC = Factory(navigatonController: UINavigationController(), flow: .feedVC)
