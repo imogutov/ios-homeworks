@@ -1,5 +1,6 @@
 
 import UIKit
+import RealmSwift
 
 class LogInViewController: UIViewController {
     
@@ -22,6 +23,7 @@ class LogInViewController: UIViewController {
             }
         }
     }
+    
     
     private lazy var logoImageView: UIImageView = {
         let logoImageView = UIImageView(image: UIImage(named: "logo"))
@@ -136,12 +138,21 @@ class LogInViewController: UIViewController {
                 self?.alertToFillTextField()
             }
             if self?.signUp == true {
+
                 self?.delegate?.signUp(email: self!.emailTextField.text!, password: self!.passwordTextField.text!) { result in
                     if result == "Success registration" {
                         let alert = UIAlertController(title: "Done!", message: "Regisrtation succesfull", preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "Please log in", style: .default))
                         self?.present(alert, animated: true, completion: nil)
                         self?.signUp = !self!.signUp
+                        
+                        let realm = try! Realm()
+                        try! realm.write {
+                            let user = RealmUser(login: self!.emailTextField.text!, password: self!.passwordTextField.text!)
+                            realm.add(user)
+                            user.isAuth = false
+                        }
+                        
                     } else {
                         self?.alertAuthorization(message: result)
                     }
@@ -149,10 +160,22 @@ class LogInViewController: UIViewController {
             }
             
             if self?.signUp == false {
+                
                 self?.delegate?.checkCredentials(email: self!.emailTextField.text!, password: self!.passwordTextField.text!) { result in
                     if result == "Success authorization" {
                         let profileViewController = ProfileViewController(userService: userService, login: self!.emailTextField.text!)
                         self?.navigationController?.pushViewController(profileViewController, animated: true)
+                        
+                        let realm = try! Realm()
+                        let users = realm.objects(RealmUser.self)
+                        let user = users.where {
+                            $0.login == self!.emailTextField.text! && $0.password == self!.passwordTextField.text!
+                        }
+                        try! realm.write {
+                            user[0].isAuth = true
+                        }
+                        UserDefaults.standard.set(user[0].login, forKey: "userLogin")
+                        
                     } else {
                         self?.alertAuthorization(message: result)
                     }
@@ -235,6 +258,25 @@ class LogInViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+#if DEBUG
+        let userService = TestUserService()
+#else
+        let userService = CurrentUserService()
+#endif
+        
+        let realm = try! Realm()
+        let users = realm.objects(RealmUser.self)
+        print(users)
+        let user = users.where {
+            $0.login == UserDefaults.standard.string(forKey: "userLogin")
+        }
+        
+        if user.isEmpty == false && user[0].isAuth == true {
+            let profileViewController = ProfileViewController(userService: userService, login: user[0].login ?? "")
+            self.navigationController?.pushViewController(profileViewController, animated: true)
+        }
+        
         let nc = NotificationCenter.default
         nc.addObserver(self, selector: #selector(kbdShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         nc.addObserver(self, selector: #selector(kbdHide), name: UIResponder.keyboardWillHideNotification, object: nil)
