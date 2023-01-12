@@ -138,7 +138,7 @@ class LogInViewController: UIViewController {
                 self?.alertToFillTextField()
             }
             if self?.signUp == true {
-
+                
                 self?.delegate?.signUp(email: self!.emailTextField.text!, password: self!.passwordTextField.text!) { result in
                     if result == "Success registration" {
                         let alert = UIAlertController(title: "Done!", message: "Regisrtation succesfull", preferredStyle: .alert)
@@ -146,11 +146,15 @@ class LogInViewController: UIViewController {
                         self?.present(alert, animated: true, completion: nil)
                         self?.signUp = !self!.signUp
                         
-                        let realm = try! Realm()
-                        try! realm.write {
-                            let user = RealmUser(login: self!.emailTextField.text!, password: self!.passwordTextField.text!)
-                            realm.add(user)
-                            user.isAuth = false
+                        let realm = try? Realm()
+                        do {
+                            try realm?.write {
+                                let user = RealmUser(login: self!.emailTextField.text!, password: self!.passwordTextField.text!)
+                                realm?.add(user)
+                                user.isAuth = false
+                            }
+                        } catch {
+                            print(error)
                         }
                         
                     } else {
@@ -166,15 +170,22 @@ class LogInViewController: UIViewController {
                         let profileViewController = ProfileViewController(userService: userService, login: self!.emailTextField.text!)
                         self?.navigationController?.pushViewController(profileViewController, animated: true)
                         
-                        let realm = try! Realm()
-                        let users = realm.objects(RealmUser.self)
-                        let user = users.where {
-                            $0.login == self!.emailTextField.text! && $0.password == self!.passwordTextField.text!
+                        let realm = try? Realm()
+                        do {
+                            guard let users = realm?.objects(RealmUser.self) else { return }
+                            let user = users.where {
+                                $0.login == self!.emailTextField.text! && $0.password == self!.passwordTextField.text!
+                            }
+                            
+                            guard user.isEmpty == false else { return }
+                            try realm?.write {
+                                user[0].isAuth = true
+                            }
+                            UserDefaults.standard.set(user[0].login, forKey: "userLogin")
+                            
+                        } catch {
+                            print(error)
                         }
-                        try! realm.write {
-                            user[0].isAuth = true
-                        }
-                        UserDefaults.standard.set(user[0].login, forKey: "userLogin")
                         
                     } else {
                         self?.alertAuthorization(message: result)
@@ -265,8 +276,8 @@ class LogInViewController: UIViewController {
         let userService = CurrentUserService()
 #endif
         
-        let realm = try! Realm()
-        let users = realm.objects(RealmUser.self)
+        let realm = try? Realm()
+        guard let users = realm?.objects(RealmUser.self) else { return }
         print(users)
         let user = users.where {
             $0.login == UserDefaults.standard.string(forKey: "userLogin")
@@ -276,6 +287,7 @@ class LogInViewController: UIViewController {
             let profileViewController = ProfileViewController(userService: userService, login: user[0].login ?? "")
             self.navigationController?.pushViewController(profileViewController, animated: true)
         }
+        
         
         let nc = NotificationCenter.default
         nc.addObserver(self, selector: #selector(kbdShow), name: UIResponder.keyboardWillShowNotification, object: nil)
