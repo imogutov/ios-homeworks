@@ -126,8 +126,11 @@ class LogInViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    
     private func buttonAction() {
+        
+        let key = Data(UserDefaults.standard.string(forKey: "key")!.utf8)
+        let config = Realm.Configuration(encryptionKey: key)
+        
         signUpButton.action = { [weak self] in
 #if DEBUG
             let userService = TestUserService()
@@ -138,12 +141,6 @@ class LogInViewController: UIViewController {
                 self?.alertToFillTextField()
             }
             
-            var key = Data(count: 64)
-            _ = key.withUnsafeMutableBytes { (pointer: UnsafeMutableRawBufferPointer) in
-                SecRandomCopyBytes(kSecRandomDefault, 64, pointer.baseAddress!) }
-            
-            var config = Realm.Configuration(encryptionKey: key)
-            
             if self?.signUp == true {
                 
                 self?.delegate?.signUp(email: self!.emailTextField.text!, password: self!.passwordTextField.text!) { result in
@@ -153,8 +150,8 @@ class LogInViewController: UIViewController {
                         self?.present(alert, animated: true, completion: nil)
                         self?.signUp = !self!.signUp
                         
-                        let realm = try? Realm(configuration: config)
                         do {
+                            let realm = try? Realm(configuration: config)
                             try realm?.write {
                                 let user = RealmUser(login: self!.emailTextField.text!, password: self!.passwordTextField.text!)
                                 realm?.add(user)
@@ -174,25 +171,27 @@ class LogInViewController: UIViewController {
                 
                 self?.delegate?.checkCredentials(email: self!.emailTextField.text!, password: self!.passwordTextField.text!) { result in
                     if result == "Success authorization" {
-                        let profileViewController = ProfileViewController(userService: userService, login: self!.emailTextField.text!)
-                        self?.navigationController?.pushViewController(profileViewController, animated: true)
                         
-                        let realm = try? Realm(configuration: config)
                         do {
+                            let realm = try? Realm(configuration: config)
                             guard let users = realm?.objects(RealmUser.self) else { return }
                             let user = users.where {
                                 $0.login == self!.emailTextField.text! && $0.password == self!.passwordTextField.text!
                             }
                             
-                            guard user.isEmpty == false else { return }
+                            guard user.isEmpty == false else { print("userIsEmpty"); return }
                             try realm?.write {
                                 user[0].isAuth = true
+                                print(users)
                             }
                             UserDefaults.standard.set(user[0].login, forKey: "userLogin")
                             
                         } catch {
                             print(error)
                         }
+                        
+                        let profileViewController = ProfileViewController(userService: userService, login: self!.emailTextField.text!)
+                        self?.navigationController?.pushViewController(profileViewController, animated: true)
                         
                     } else {
                         self?.alertAuthorization(message: result)
