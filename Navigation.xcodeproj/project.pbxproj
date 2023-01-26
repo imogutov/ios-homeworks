@@ -11,6 +11,7 @@
 		2C2FCC24288049A800E381FE /* Checker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2FCC23288049A800E381FE /* Checker.swift */; };
 		2C2FCC262880B4F500E381FE /* LoginInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2FCC252880B4F500E381FE /* LoginInspector.swift */; };
 		2C2FCC2828816E3400E381FE /* LoginFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2FCC2728816E3400E381FE /* LoginFactory.swift */; };
+		2C3031CC29769EB200A88961 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3031CB29769EB200A88961 /* MapViewController.swift */; };
 		2C3497DB2937C4AA0075B0E6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C3497DA2937C4A90075B0E6 /* GoogleService-Info.plist */; };
 		2C3497DE2937CDED0075B0E6 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 2C3497DD2937CDED0075B0E6 /* FirebaseAuth */; };
 		2C3497E02937E26A0075B0E6 /* CheckerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3497DF2937E26A0075B0E6 /* CheckerService.swift */; };
@@ -63,6 +64,7 @@
 		2C2FCC23288049A800E381FE /* Checker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checker.swift; sourceTree = "<group>"; };
 		2C2FCC252880B4F500E381FE /* LoginInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInspector.swift; sourceTree = "<group>"; };
 		2C2FCC2728816E3400E381FE /* LoginFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFactory.swift; sourceTree = "<group>"; };
+		2C3031CB29769EB200A88961 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		2C3497DA2937C4A90075B0E6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2C3497DF2937E26A0075B0E6 /* CheckerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckerService.swift; sourceTree = "<group>"; };
 		2C3EF5D92836BC89003B6AA7 /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 				2CF2079028AB8E31000034CC /* Coordinator */,
 				2C2FCC252880B4F500E381FE /* LoginInspector.swift */,
 				2C3497DF2937E26A0075B0E6 /* CheckerService.swift */,
+				2C3031CB29769EB200A88961 /* MapViewController.swift */,
 				2CA0DEA9287DEF18002A4647 /* CurrentUserService.swift */,
 				2CA0DEAB287F3B63002A4647 /* TestUserService.swift */,
 				2CAC8C90280C5C1100483900 /* AppDelegate.swift */,
@@ -294,6 +297,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C3031CC29769EB200A88961 /* MapViewController.swift in Sources */,
 				2CB03C0A28620D9700308EEA /* PhotosTableViewCell.swift in Sources */,
 				2CF2079228AB8E4D000034CC /* MainCoordinator.swift in Sources */,
 				2CB03C0C2862124900308EEA /* PhotosViewController.swift in Sources */,
@@ -465,8 +469,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Navigation/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Разреши доступ к геолокации";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Разреши доступ к геолокации";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Разреши доступ к геолокации";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -493,8 +501,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Navigation/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Разреши доступ к геолокации";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Разреши доступ к геолокации";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Разреши доступ к геолокации";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
