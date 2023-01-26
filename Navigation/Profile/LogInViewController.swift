@@ -8,17 +8,32 @@ class LogInViewController: UIViewController {
     
     let userService = CurrentUserService()
     
+    private enum LocalizedKeys: String {
+        case loginLabelSingUp = "loginLabeleSignUp"
+        case logIn = "logIn"
+        case emailTextFieldText = "emailTextFieldText"
+        case password = "password"
+        case loginLabelRegister = "loginLabelRegister"
+        case signUp = "signUp"
+        case blankFields = "blankFields"
+        case tryAgain = "tryAgain"
+        case error = "error"
+        case done = "done"
+        case successReg = "successRegistration"
+        case pleaseLogin = "pleaseLogin"
+    }
+    
     var signUp: Bool = true {
         willSet {
             if newValue {
-                signUpButton.setTitle("Sign Up", for: .normal)
-                logInLabel.text = "Already signed up?"
-                buttonLogIn.setTitle("Log In", for: .normal)
+                signUpButton.setTitle(~LocalizedKeys.signUp.rawValue, for: .normal)
+                logInLabel.text = ~LocalizedKeys.loginLabelSingUp.rawValue
+                buttonLogIn.setTitle(~LocalizedKeys.logIn.rawValue, for: .normal)
                 print("singUP")
             } else {
-                signUpButton.setTitle("Log In", for: .normal)
-                logInLabel.text = "Do you want to register?"
-                buttonLogIn.setTitle("Sing Up", for: .normal)
+                signUpButton.setTitle(~LocalizedKeys.logIn.rawValue, for: .normal)
+                logInLabel.text = ~LocalizedKeys.loginLabelRegister.rawValue
+                buttonLogIn.setTitle(~LocalizedKeys.signUp.rawValue, for: .normal)
                 print("logIN")
             }
         }
@@ -46,7 +61,7 @@ class LogInViewController: UIViewController {
     private var emailTextField: UITextField = {
         let emailTextField = UITextField()
         emailTextField.translatesAutoresizingMaskIntoConstraints = false
-        emailTextField.placeholder = "Email or phone"
+        emailTextField.placeholder = ~LocalizedKeys.emailTextFieldText.rawValue
         emailTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
         emailTextField.indent(size: 10)
         emailTextField.backgroundColor = .systemGray6
@@ -59,7 +74,7 @@ class LogInViewController: UIViewController {
     private lazy var passwordTextField: UITextField = {
         let passwordTextField = UITextField()
         passwordTextField.translatesAutoresizingMaskIntoConstraints = false
-        passwordTextField.placeholder = "Password"
+        passwordTextField.placeholder = ~LocalizedKeys.password.rawValue
         passwordTextField.layer.borderWidth = 0.5
         passwordTextField.layer.borderColor = UIColor.lightGray.cgColor
         passwordTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -73,13 +88,13 @@ class LogInViewController: UIViewController {
     }()
     
     private lazy var buttonLogIn: CustomButton = {
-        let button = CustomButton(title: "Log In", titleColor: .systemBlue)
+        let button = CustomButton(title: ~LocalizedKeys.logIn.rawValue, titleColor: .systemBlue)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     private lazy var signUpButton: CustomButton = {
-        let button = CustomButton(title: "Sign Up", titleColor: .white)
+        let button = CustomButton(title: ~LocalizedKeys.signUp.rawValue, titleColor: .white)
         button.setBackgroundImage(UIImage(named: "blue_pixel"), for: UIControl.State.normal)
         button.layer.cornerRadius = 10
         button.clipsToBounds = true
@@ -96,7 +111,7 @@ class LogInViewController: UIViewController {
     
     private lazy var logInLabel: UILabel = {
         let label = UILabel()
-        label.text = "Already signed up?"
+        label.text = ~LocalizedKeys.loginLabelSingUp.rawValue
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
         return label
@@ -115,14 +130,14 @@ class LogInViewController: UIViewController {
     }()
     
     private func alertToFillTextField() {
-        let alert = UIAlertController(title: "You left a few fields blank", message: "Try again", preferredStyle: .alert)
+        let alert = UIAlertController(title: ~LocalizedKeys.blankFields.rawValue, message: ~LocalizedKeys.tryAgain.rawValue, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         self.present(alert, animated: true, completion: nil)
     }
     
     private func alertAuthorization(message : String) {
-        let alert = UIAlertController(title: "Error!", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Try again", style: .default))
+        let alert = UIAlertController(title: ~LocalizedKeys.error.rawValue, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: ~LocalizedKeys.tryAgain.rawValue, style: .default))
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -145,8 +160,8 @@ class LogInViewController: UIViewController {
                 
                 self?.delegate?.signUp(email: self!.emailTextField.text!, password: self!.passwordTextField.text!) { result in
                     if result == "Success registration" {
-                        let alert = UIAlertController(title: "Done!", message: "Regisrtation succesfull", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Please log in", style: .default))
+                        let alert = UIAlertController(title: ~LocalizedKeys.done.rawValue, message: ~LocalizedKeys.successReg.rawValue, preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: ~LocalizedKeys.pleaseLogin.rawValue, style: .default))
                         self?.present(alert, animated: true, completion: nil)
                         self?.signUp = !self!.signUp
                         

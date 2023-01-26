@@ -4,6 +4,10 @@ import UIKit
 
 class PhotosTableViewCell: UITableViewCell {
     
+    private enum LocalizedKeys: String {
+        case photos = "photos"
+    }
+    
     private let inCellView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -62,7 +66,7 @@ class PhotosTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.boldSystemFont(ofSize: 24)
-        label.text = "Photos"
+        label.text = ~LocalizedKeys.photos.rawValue
         return label
     }()
     
