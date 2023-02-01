@@ -31,13 +31,8 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = true
-        view.backgroundColor = .white
         layout()
-#if DEBUG
-        view.backgroundColor = .systemYellow
-#else
-        view.backgroundColor = .systemGreen
-#endif
+        view.backgroundColor = UIColor.createColor(lightMode: .white, darkMode: .black)
     }
     
     private func layout() {

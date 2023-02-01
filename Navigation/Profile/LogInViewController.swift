@@ -65,7 +65,7 @@ class LogInViewController: UIViewController {
         emailTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
         emailTextField.indent(size: 10)
         emailTextField.backgroundColor = .systemGray6
-        emailTextField.textColor = .black
+        emailTextField.textColor = UIColor.createColor(lightMode: .black, darkMode: .white)
         emailTextField.font = UIFont.systemFont(ofSize: 16)
         emailTextField.autocapitalizationType = .none
         return emailTextField
@@ -81,7 +81,7 @@ class LogInViewController: UIViewController {
         passwordTextField.indent(size: 10)
         passwordTextField.backgroundColor = .systemGray6
         passwordTextField.isSecureTextEntry = true
-        passwordTextField.textColor = .black
+        passwordTextField.textColor = UIColor.createColor(lightMode: .black, darkMode: .white)
         passwordTextField.font = UIFont.systemFont(ofSize: 16)
         passwordTextField.autocapitalizationType = .none
         return passwordTextField
@@ -113,7 +113,7 @@ class LogInViewController: UIViewController {
         let label = UILabel()
         label.text = ~LocalizedKeys.loginLabelSingUp.rawValue
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .black
+        label.textColor = UIColor.createColor(lightMode: .black, darkMode: .white)
         return label
     }()
     
@@ -278,7 +278,7 @@ class LogInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tabBarController?.tabBar.isHidden = true
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor.createColor(lightMode: .white, darkMode: .black)
         configureScrollView()
         configureContentView()
         setupLogoIV()

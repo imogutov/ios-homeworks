@@ -44,13 +44,15 @@ class ProfileHeaderView: UIView {
     private lazy var statusTextField: UITextField = {
         let statusTextField = UITextField()
         statusTextField.layer.borderWidth = 1
-        statusTextField.layer.borderColor = UIColor.black.cgColor
-        statusTextField.layer.backgroundColor = UIColor.white.cgColor
+        statusTextField.layer.borderColor = UIColor.createColor(lightMode: .black, darkMode: .white).cgColor
+        statusTextField.backgroundColor = UIColor.createColor(lightMode: .white, darkMode: .black)
+        statusTextField.layer.backgroundColor = UIColor.createColor(lightMode: .white, darkMode: .black).cgColor
         statusTextField.layer.cornerRadius = 12
-        statusTextField.textColor = UIColor.black
+        statusTextField.textColor = UIColor.createColor(lightMode: .black, darkMode: .white)
         statusTextField.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         statusTextField.addTarget(self, action: #selector(statusTextChanged(_:)), for: .editingChanged)
         statusTextField.placeholder = ~LocalizedKeys.setYourStatus.rawValue
+        
         statusTextField.indent(size: 10)
         statusTextField.translatesAutoresizingMaskIntoConstraints = false
         return statusTextField
