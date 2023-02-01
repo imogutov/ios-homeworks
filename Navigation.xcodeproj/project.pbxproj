@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -44,6 +44,8 @@
 		2CF2079528AB8F54000034CC /* MainTabbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF2079428AB8F54000034CC /* MainTabbarViewController.swift */; };
 		2CF2079828AB8FB3000034CC /* Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF2079728AB8FB3000034CC /* Factory.swift */; };
 		2CF3B0C0288839BD00764B12 /* iOSIntPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 2CF3B0BF288839BD00764B12 /* iOSIntPackage */; };
+		57EDE2452981343100A59459 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 57EDE2472981343100A59459 /* Localizable.strings */; };
+		57EDE2492981386B00A59459 /* LocalizationShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EDE2482981386B00A59459 /* LocalizationShortcut.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -98,6 +100,10 @@
 		2CF2079128AB8E4D000034CC /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		2CF2079428AB8F54000034CC /* MainTabbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabbarViewController.swift; sourceTree = "<group>"; };
 		2CF2079728AB8FB3000034CC /* Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Factory.swift; sourceTree = "<group>"; };
+		57EDE242298133AC00A59459 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		57EDE2462981343100A59459 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		57EDE2482981386B00A59459 /* LocalizationShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationShortcut.swift; sourceTree = "<group>"; };
+		57EDE24A298140A500A59459 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +176,7 @@
 				2CA0DEA9287DEF18002A4647 /* CurrentUserService.swift */,
 				2CA0DEAB287F3B63002A4647 /* TestUserService.swift */,
 				2CAC8C90280C5C1100483900 /* AppDelegate.swift */,
+				57EDE2482981386B00A59459 /* LocalizationShortcut.swift */,
 				2C2FCC2728816E3400E381FE /* LoginFactory.swift */,
 				2C592ED128C0F45D00DD9E65 /* NetworkService.swift */,
 				2CAC8CA8280C621F00483900 /* PostViewController.swift */,
@@ -186,6 +193,7 @@
 				2CF2078C28A2C37E000034CC /* CustomTextField.swift */,
 				2CAC8CAA280C728C00483900 /* Post.swift */,
 				2C3497DA2937C4A90075B0E6 /* GoogleService-Info.plist */,
+				57EDE2472981343100A59459 /* Localizable.strings */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -256,12 +264,13 @@
 				};
 			};
 			buildConfigurationList = 2CAC8C88280C5C1100483900 /* Build configuration list for PBXProject "Navigation" */;
-			compatibilityVersion = "Xcode 13.0";
+			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 2CAC8C84280C5C1100483900;
 			packageReferences = (
@@ -285,6 +294,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CAC8C9D280C5C1400483900 /* LaunchScreen.storyboard in Resources */,
+				57EDE2452981343100A59459 /* Localizable.strings in Resources */,
 				2CAC8C9A280C5C1400483900 /* Assets.xcassets in Resources */,
 				2C3497DB2937C4AA0075B0E6 /* GoogleService-Info.plist in Resources */,
 			);
@@ -323,6 +333,7 @@
 				2C6CADBB296DE7C7004F6464 /* RealmUserModel.swift in Sources */,
 				2CB03C10286212E400308EEA /* Photos.swift in Sources */,
 				2C2FCC2828816E3400E381FE /* LoginFactory.swift in Sources */,
+				57EDE2492981386B00A59459 /* LocalizationShortcut.swift in Sources */,
 				2CAC8CA5280C605600483900 /* FeedViewController.swift in Sources */,
 				2CA0DEAC287F3B63002A4647 /* TestUserService.swift in Sources */,
 				2CAC8CAD280C8A8F00483900 /* InfoViewController.swift in Sources */,
@@ -338,8 +349,18 @@
 			isa = PBXVariantGroup;
 			children = (
 				2CAC8C9C280C5C1400483900 /* Base */,
+				57EDE242298133AC00A59459 /* ru */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		57EDE2472981343100A59459 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				57EDE2462981343100A59459 /* ru */,
+				57EDE24A298140A500A59459 /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -349,6 +370,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -396,7 +418,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -410,6 +432,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -451,7 +474,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

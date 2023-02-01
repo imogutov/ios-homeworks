@@ -6,6 +6,11 @@ class ProfileHeaderView: UIView {
     
     let userService = CurrentUserService()
     
+    private enum LocalizedKeys: String {
+        case setYourStatus = "setYourStatus"
+        case setStatus = "setStatus"
+    }
+    
     private lazy var avatarImageView: UIImageView = {
         let avatarImageView = UIImageView()
         avatarImageView.image = userService.user.avatar
@@ -45,14 +50,14 @@ class ProfileHeaderView: UIView {
         statusTextField.textColor = UIColor.black
         statusTextField.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         statusTextField.addTarget(self, action: #selector(statusTextChanged(_:)), for: .editingChanged)
-        statusTextField.placeholder = "Set your status..."
+        statusTextField.placeholder = ~LocalizedKeys.setYourStatus.rawValue
         statusTextField.indent(size: 10)
         statusTextField.translatesAutoresizingMaskIntoConstraints = false
         return statusTextField
     }()
     
     private lazy var setStatusButton: CustomButton = {
-        let setStatusButton = CustomButton(title: "Set status", titleColor: .white)
+        let setStatusButton = CustomButton(title: ~LocalizedKeys.setStatus.rawValue, titleColor: .white)
         setStatusButton.backgroundColor = .systemBlue
 //        setStatusButton.setTitle("Set status", for: .normal)
 //        setStatusButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)

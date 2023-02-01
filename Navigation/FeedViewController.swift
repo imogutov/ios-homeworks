@@ -4,32 +4,41 @@ import UIKit
 
 class FeedViewController: UIViewController {
     
+    private enum LocalizedKeys: String {
+        case button1 = "button1"
+        case button2 = "button2"
+        case checkWord = "checkWord"
+        case enterWordToCheck = "enterWordToCheck"
+        case result = "result"
+        case header = "header"
+    }
+    
     private var post: Post?
     private let model = Model()
     private let stackView = UIStackView()
     
     private lazy var button: CustomButton = {
-        let button = CustomButton(title: "Кнопка 1", titleColor: .white)
+        let button = CustomButton(title: ~LocalizedKeys.button1.rawValue, titleColor: .white)
         button.backgroundColor = .systemBlue
         button.layer.cornerRadius = 6
         return button
     }()
     private lazy var button1: CustomButton = {
-        let button = CustomButton(title: "Кнопка 2", titleColor: .white)
+        let button = CustomButton(title: ~LocalizedKeys.button2.rawValue, titleColor: .white)
         button.backgroundColor = .systemBlue
         button.layer.cornerRadius = 6
         return button
     }()
     
     private lazy var checkButton: CustomButton = {
-        let button = CustomButton(title: "Проверить слово", titleColor: .white)
+        let button = CustomButton(title: ~LocalizedKeys.checkWord.rawValue, titleColor: .white)
         button.backgroundColor = .systemBlue
         button.layer.cornerRadius = 6
         return button
     }()
     
     private lazy var customTextField: CustomTextField = {
-        let textField = CustomTextField(placeholder: "Введите слово для проверки")
+        let textField = CustomTextField(placeholder: ~LocalizedKeys.enterWordToCheck.rawValue)
         textField.layer.borderWidth = 0.5
         textField.layer.cornerRadius = 6
         textField.textColor = .black
@@ -41,7 +50,7 @@ class FeedViewController: UIViewController {
         label.alpha = 1
         label.layer.cornerRadius = 6
         label.textAlignment = .center
-        label.text = "Результат проверки"
+        label.text = ~LocalizedKeys.result.rawValue
         return label
     }()
     
@@ -49,13 +58,13 @@ class FeedViewController: UIViewController {
         button.action = { [weak self] in
             let postViewController = PostViewController()
             self?.navigationController?.pushViewController(postViewController, animated: true)
-            postViewController.titlePost = "Заголовок поста"
+            postViewController.titlePost = ~LocalizedKeys.header.rawValue
         }
         
         button1.action = { [weak self] in
             let postViewController = PostViewController()
             self?.navigationController?.pushViewController(postViewController, animated: true)
-            postViewController.titlePost = "Заголовок поста"
+            postViewController.titlePost = ~LocalizedKeys.header.rawValue
         }
         
         checkButton.action = { [weak self] in

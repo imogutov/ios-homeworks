@@ -7,6 +7,9 @@ class PhotosViewController: UIViewController {
     //    private var imagePublisherFacade: ImagePublisherFacade?
     private lazy var photos = userImages
     
+    private enum LocalizedKeys: String {
+        case photoGallery = "photoGallery"
+    }
     
     private var timer: Timer?
     private var countInMilliseconds: Double = 0
@@ -70,7 +73,7 @@ class PhotosViewController: UIViewController {
         view.addSubview(collectionView)
         view.backgroundColor = .white
         self.navigationController?.navigationBar.isHidden = false
-        self.title = "Photo Gallery"
+        self.title = ~LocalizedKeys.photoGallery.rawValue
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),

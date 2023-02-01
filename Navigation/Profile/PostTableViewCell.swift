@@ -4,6 +4,11 @@ import iOSIntPackage
 
 class PostTableViewCell: UITableViewCell {
     
+    private enum LocalizedKeys: String {
+        case likes = "likes"
+        case views = "views"
+    }
+    
     private let inCellView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -72,8 +77,8 @@ class PostTableViewCell: UITableViewCell {
         imagePostView.image = UIImage(named: "\(post.image)")
         authorLabel.text = post.author
         descriptionLabel.text = post.description
-        likesLabel.text = "Likes: \(post.likes)"
-        viewsLabel.text = "Views: \(post.views)"
+        likesLabel.text = "\(~LocalizedKeys.likes.rawValue): \(post.likes)"
+        viewsLabel.text = "\(~LocalizedKeys.views.rawValue): \(post.views)"
         imagePostView.image = filterImage(imagePostView.image!)
     }
     
