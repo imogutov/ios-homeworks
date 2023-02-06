@@ -44,6 +44,7 @@
 		2CF2079528AB8F54000034CC /* MainTabbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF2079428AB8F54000034CC /* MainTabbarViewController.swift */; };
 		2CF2079828AB8FB3000034CC /* Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF2079728AB8FB3000034CC /* Factory.swift */; };
 		2CF3B0C0288839BD00764B12 /* iOSIntPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 2CF3B0BF288839BD00764B12 /* iOSIntPackage */; };
+		57218781298A87460019DE24 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57218780298A87460019DE24 /* UIColorExtension.swift */; };
 		57EDE2452981343100A59459 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 57EDE2472981343100A59459 /* Localizable.strings */; };
 		57EDE2492981386B00A59459 /* LocalizationShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EDE2482981386B00A59459 /* LocalizationShortcut.swift */; };
 /* End PBXBuildFile section */
@@ -100,6 +101,7 @@
 		2CF2079128AB8E4D000034CC /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		2CF2079428AB8F54000034CC /* MainTabbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabbarViewController.swift; sourceTree = "<group>"; };
 		2CF2079728AB8FB3000034CC /* Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Factory.swift; sourceTree = "<group>"; };
+		57218780298A87460019DE24 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		57EDE242298133AC00A59459 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		57EDE2462981343100A59459 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		57EDE2482981386B00A59459 /* LocalizationShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationShortcut.swift; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				2CA0DEA7287DE82B002A4647 /* User.swift */,
+				57218780298A87460019DE24 /* UIColorExtension.swift */,
 				2C2FCC23288049A800E381FE /* Checker.swift */,
 				2CF2078E28A2C79E000034CC /* Model.swift */,
 				2C6CADBA296DE7C7004F6464 /* RealmUserModel.swift */,
@@ -315,6 +318,7 @@
 				2CAC8CA9280C621F00483900 /* PostViewController.swift in Sources */,
 				2CAC8C95280C5C1100483900 /* ViewController.swift in Sources */,
 				2C2FCC262880B4F500E381FE /* LoginInspector.swift in Sources */,
+				57218781298A87460019DE24 /* UIColorExtension.swift in Sources */,
 				2C3497E02937E26A0075B0E6 /* CheckerService.swift in Sources */,
 				2CAC8C91280C5C1100483900 /* AppDelegate.swift in Sources */,
 				2CA0DEAA287DEF18002A4647 /* CurrentUserService.swift in Sources */,

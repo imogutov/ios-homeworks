@@ -17,7 +17,7 @@ class PhotosTableViewCell: UITableViewCell {
     private let arrowImageView: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.image = UIImage(systemName: "arrow.right")
+        view.image = UIImage(named: "arrow")
         view.tintColor = .black
         return view
     }()

@@ -29,6 +29,7 @@ class PostTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.numberOfLines = 2
+        label.textColor = UIColor.createColor(lightMode: .black, darkMode: .white)
         return label
     }()
     
@@ -37,7 +38,7 @@ class PostTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = .systemGray
+        label.textColor = UIColor.createColor(lightMode: .systemGray, darkMode: .lightGray)
         return label
     }()
     
@@ -45,6 +46,7 @@ class PostTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16)
+        label.textColor = UIColor.createColor(lightMode: .black, darkMode: .white)
         return label
     }()
     
@@ -52,6 +54,7 @@ class PostTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16)
+        label.textColor = UIColor.createColor(lightMode: .black, darkMode: .white)
         return label
     }()
     
@@ -79,7 +82,7 @@ class PostTableViewCell: UITableViewCell {
         descriptionLabel.text = post.description
         likesLabel.text = "\(~LocalizedKeys.likes.rawValue): \(post.likes)"
         viewsLabel.text = "\(~LocalizedKeys.views.rawValue): \(post.views)"
-        imagePostView.image = filterImage(imagePostView.image!)
+//        imagePostView.image = filterImage(imagePostView.image!)
     }
     
     private func layout() {

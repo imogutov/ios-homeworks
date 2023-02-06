@@ -32,18 +32,18 @@ class PhotosViewController: UIViewController {
         super.viewDidLoad()
         layout()
         //        imagePublisherFacade = ImagePublisherFacade()
-        startTimer()
-        ImageProcessor().processImagesOnThread(sourceImages: photos, filter: .colorInvert, qos: .utility) { filtres in
-            self.photos.removeAll()
-            for photo in filtres {
-                guard let photo = photo else { return }
-                self.photos.append(UIImage(cgImage: photo))
-            }
-            DispatchQueue.main.async {
-                self.stopTimer()
-                self.collectionView.reloadData()
-            }
-        }
+//        startTimer()
+//        ImageProcessor().processImagesOnThread(sourceImages: photos, filter: .colorInvert, qos: .utility) { filtres in
+//            self.photos.removeAll()
+//            for photo in filtres {
+//                guard let photo = photo else { return }
+//                self.photos.append(UIImage(cgImage: photo))
+//            }
+//            DispatchQueue.main.async {
+//                self.stopTimer()
+//                self.collectionView.reloadData()
+//            }
+//        }
     }
     
     private func startTimer(){
@@ -71,7 +71,7 @@ class PhotosViewController: UIViewController {
     
     private func layout() {
         view.addSubview(collectionView)
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor.createColor(lightMode: .white, darkMode: .black)
         self.navigationController?.navigationBar.isHidden = false
         self.title = ~LocalizedKeys.photoGallery.rawValue
         NSLayoutConstraint.activate([
