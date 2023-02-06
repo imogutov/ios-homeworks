@@ -107,9 +107,12 @@ class FeedViewController: UIViewController {
         stackView.addArrangedSubview(checkButton)
         stackView.addArrangedSubview(checkResultLabel)
     }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        self.navigationController?.tabBarController?.viewControllers?.remove(at: 0)
+        self.navigationController?.tabBarController?.tabBar.isHidden = false
         self.view.backgroundColor = .systemBackground
         configureStackView()
         buttonsAction()
