@@ -45,6 +45,8 @@
 		2CF2079828AB8FB3000034CC /* Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF2079728AB8FB3000034CC /* Factory.swift */; };
 		2CF3B0C0288839BD00764B12 /* iOSIntPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 2CF3B0BF288839BD00764B12 /* iOSIntPackage */; };
 		57218781298A87460019DE24 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57218780298A87460019DE24 /* UIColorExtension.swift */; };
+		57C8CBD6298E7ACA0081CF51 /* AuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C8CBD5298E7ACA0081CF51 /* AuthenticationViewController.swift */; };
+		57C8CBD8298E7BE10081CF51 /* LocalAuthorizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C8CBD7298E7BE10081CF51 /* LocalAuthorizationService.swift */; };
 		57EDE2452981343100A59459 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 57EDE2472981343100A59459 /* Localizable.strings */; };
 		57EDE2492981386B00A59459 /* LocalizationShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EDE2482981386B00A59459 /* LocalizationShortcut.swift */; };
 /* End PBXBuildFile section */
@@ -102,6 +104,8 @@
 		2CF2079428AB8F54000034CC /* MainTabbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabbarViewController.swift; sourceTree = "<group>"; };
 		2CF2079728AB8FB3000034CC /* Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Factory.swift; sourceTree = "<group>"; };
 		57218780298A87460019DE24 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
+		57C8CBD5298E7ACA0081CF51 /* AuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewController.swift; sourceTree = "<group>"; };
+		57C8CBD7298E7BE10081CF51 /* LocalAuthorizationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorizationService.swift; sourceTree = "<group>"; };
 		57EDE242298133AC00A59459 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		57EDE2462981343100A59459 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		57EDE2482981386B00A59459 /* LocalizationShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationShortcut.swift; sourceTree = "<group>"; };
@@ -169,12 +173,14 @@
 				57218780298A87460019DE24 /* UIColorExtension.swift */,
 				2C2FCC23288049A800E381FE /* Checker.swift */,
 				2CF2078E28A2C79E000034CC /* Model.swift */,
+				57C8CBD7298E7BE10081CF51 /* LocalAuthorizationService.swift */,
 				2C6CADBA296DE7C7004F6464 /* RealmUserModel.swift */,
 				2CF2079628AB8F99000034CC /* Factory */,
 				2CF2079328AB8F27000034CC /* MainTabbar */,
 				2CF2079028AB8E31000034CC /* Coordinator */,
 				2C2FCC252880B4F500E381FE /* LoginInspector.swift */,
 				2C3497DF2937E26A0075B0E6 /* CheckerService.swift */,
+				57C8CBD5298E7ACA0081CF51 /* AuthenticationViewController.swift */,
 				2C3031CB29769EB200A88961 /* MapViewController.swift */,
 				2CA0DEA9287DEF18002A4647 /* CurrentUserService.swift */,
 				2CA0DEAB287F3B63002A4647 /* TestUserService.swift */,
@@ -337,11 +343,13 @@
 				2C6CADBB296DE7C7004F6464 /* RealmUserModel.swift in Sources */,
 				2CB03C10286212E400308EEA /* Photos.swift in Sources */,
 				2C2FCC2828816E3400E381FE /* LoginFactory.swift in Sources */,
+				57C8CBD8298E7BE10081CF51 /* LocalAuthorizationService.swift in Sources */,
 				57EDE2492981386B00A59459 /* LocalizationShortcut.swift in Sources */,
 				2CAC8CA5280C605600483900 /* FeedViewController.swift in Sources */,
 				2CA0DEAC287F3B63002A4647 /* TestUserService.swift in Sources */,
 				2CAC8CAD280C8A8F00483900 /* InfoViewController.swift in Sources */,
 				2C74772D284940AF007FD6A8 /* LogInViewController.swift in Sources */,
+				57C8CBD6298E7ACA0081CF51 /* AuthenticationViewController.swift in Sources */,
 				2CAC8C93280C5C1100483900 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -499,6 +507,7 @@
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Navigation/Info.plist;
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Please, allow Face ID";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Разреши доступ к геолокации";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Разреши доступ к геолокации";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Разреши доступ к геолокации";
@@ -531,6 +540,7 @@
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Navigation/Info.plist;
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Please, allow Face ID";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Разреши доступ к геолокации";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Разреши доступ к геолокации";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Разреши доступ к геолокации";

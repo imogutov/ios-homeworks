@@ -40,7 +40,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //            return tabBarController
         //        }
         //
+//        let authVC = AuthenticationViewController()
         let mainCoordinator = MainCoordinator()
+//        self.window?.rootViewController = authVC
         self.window?.rootViewController = mainCoordinator.startApplication()
         self.window?.makeKeyAndVisible()
         

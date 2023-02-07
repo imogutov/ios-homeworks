@@ -6,6 +6,7 @@ final class Factory {
         case feedVC
         case loginVC
         case mapVC
+        case authVC
     }
     
     let navigationController: UINavigationController
@@ -34,6 +35,10 @@ final class Factory {
             let mapViewController = MapViewController()
             navigationController.tabBarItem = UITabBarItem(title: "map", image: UIImage(systemName: "map.fill"), tag: 2)
             navigationController.setViewControllers([mapViewController], animated: true)
+        case .authVC:
+            let authVC = AuthenticationViewController()
+            navigationController.setViewControllers([authVC], animated: true)
+            navigationController.tabBarItem.isEnabled = false
         }
     }
 }

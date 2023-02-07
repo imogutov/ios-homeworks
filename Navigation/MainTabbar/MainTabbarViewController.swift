@@ -13,16 +13,18 @@ class MainTabbarViewController: UITabBarController {
     private let feedVC = Factory(navigatonController: UINavigationController(), flow: .feedVC)
     private let loginVC = Factory(navigatonController: UINavigationController(), flow: .loginVC)
     private let mapVC = Factory(navigatonController: UINavigationController(), flow: .mapVC)
+    private let authVC = Factory(navigatonController: UINavigationController(), flow: .authVC)
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupControllers()
         
+        
     }
     
     private func setupControllers() {
-        viewControllers = [feedVC.navigationController, loginVC.navigationController, mapVC.navigationController]
+        viewControllers = [authVC.navigationController, feedVC.navigationController, mapVC.navigationController, loginVC.navigationController]
     }
 
     
