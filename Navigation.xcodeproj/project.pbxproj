@@ -45,6 +45,7 @@
 		2CF2079828AB8FB3000034CC /* Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF2079728AB8FB3000034CC /* Factory.swift */; };
 		2CF3B0C0288839BD00764B12 /* iOSIntPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 2CF3B0BF288839BD00764B12 /* iOSIntPackage */; };
 		57218781298A87460019DE24 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57218780298A87460019DE24 /* UIColorExtension.swift */; };
+		576455952992D5FC00777FF4 /* LocalNotificationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576455942992D5FC00777FF4 /* LocalNotificationsService.swift */; };
 		57C8CBD6298E7ACA0081CF51 /* AuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C8CBD5298E7ACA0081CF51 /* AuthenticationViewController.swift */; };
 		57C8CBD8298E7BE10081CF51 /* LocalAuthorizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C8CBD7298E7BE10081CF51 /* LocalAuthorizationService.swift */; };
 		57EDE2452981343100A59459 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 57EDE2472981343100A59459 /* Localizable.strings */; };
@@ -104,6 +105,7 @@
 		2CF2079428AB8F54000034CC /* MainTabbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabbarViewController.swift; sourceTree = "<group>"; };
 		2CF2079728AB8FB3000034CC /* Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Factory.swift; sourceTree = "<group>"; };
 		57218780298A87460019DE24 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
+		576455942992D5FC00777FF4 /* LocalNotificationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationsService.swift; sourceTree = "<group>"; };
 		57C8CBD5298E7ACA0081CF51 /* AuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewController.swift; sourceTree = "<group>"; };
 		57C8CBD7298E7BE10081CF51 /* LocalAuthorizationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorizationService.swift; sourceTree = "<group>"; };
 		57EDE242298133AC00A59459 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 				57218780298A87460019DE24 /* UIColorExtension.swift */,
 				2C2FCC23288049A800E381FE /* Checker.swift */,
 				2CF2078E28A2C79E000034CC /* Model.swift */,
+				576455942992D5FC00777FF4 /* LocalNotificationsService.swift */,
 				57C8CBD7298E7BE10081CF51 /* LocalAuthorizationService.swift */,
 				2C6CADBA296DE7C7004F6464 /* RealmUserModel.swift */,
 				2CF2079628AB8F99000034CC /* Factory */,
@@ -332,6 +335,7 @@
 				2CB03C0E286212B700308EEA /* PhotosCollectioViewCell.swift in Sources */,
 				2CAC8CA7280C606100483900 /* ProfileViewController.swift in Sources */,
 				2CF2078B289D0A70000034CC /* CustomButton.swift in Sources */,
+				576455952992D5FC00777FF4 /* LocalNotificationsService.swift in Sources */,
 				2C592ED228C0F45D00DD9E65 /* NetworkService.swift in Sources */,
 				2CF2078D28A2C37E000034CC /* CustomTextField.swift in Sources */,
 				2CF2079528AB8F54000034CC /* MainTabbarViewController.swift in Sources */,
