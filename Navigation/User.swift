@@ -14,6 +14,6 @@ public class User {
 }
 
 public protocol UserService {
-    func userService(name: String) -> User?
+    func userService() -> User?
 }
 

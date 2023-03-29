@@ -7,6 +7,7 @@
 
 import UIKit
 import LocalAuthentication
+import Firebase
 
 class AuthenticationViewController: UIViewController {
     
@@ -52,8 +53,18 @@ class AuthenticationViewController: UIViewController {
                     return
                 }
                 
-                let feedViewController = FeedViewController()
-                self?.navigationController?.pushViewController(feedViewController, animated: true)
+                
+                
+                
+                if Auth.auth().currentUser == nil {
+                    let loginVC = LogInViewController()
+                    self?.navigationController?.pushViewController(loginVC, animated: true)
+                } else {
+                    let profileVC = ProfileViewController()
+                    self?.navigationController?.pushViewController(profileVC, animated: true)
+                }
+                
+               
             }
         }
         
@@ -91,7 +102,7 @@ class AuthenticationViewController: UIViewController {
         setupButton()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.tabBarController?.viewControllers?.remove(at: 0)
-    }
+//    override func viewWillDisappear(_ animated: Bool) {
+//        self.navigationController?.tabBarController?.viewControllers?.remove(at: 0)
+//    }
 }

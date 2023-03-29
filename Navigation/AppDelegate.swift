@@ -1,7 +1,6 @@
 
 import UIKit
 import Firebase
-import RealmSwift
 import UserNotifications
 
 @main
@@ -12,7 +11,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        UserDefaults.standard.set("adsfddvcscdvdvfbfbfbfbkhgtrewvbo57364kgdhfjt,xhftdsxkmvftygcxxxx", forKey: "key")
         
         let center = UNUserNotificationCenter.current()
         center.delegate = self
@@ -27,13 +25,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    func applicationWillTerminate(_ application: UIApplication) {
-        do {
-            try Auth.auth().signOut()
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
+//    func applicationWillTerminate(_ application: UIApplication) {
+//        do {
+//            try Auth.auth().signOut()
+//        } catch {
+//            print(error.localizedDescription)
+//        }
+//    }
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {

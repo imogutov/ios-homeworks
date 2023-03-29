@@ -1,19 +1,50 @@
 
 import Foundation
 import UIKit
+import Firebase
+import FirebaseStorage
+import FirebaseFirestore
+
 
 class ProfileHeaderView: UIView {
+
+    let userID = Auth.auth().currentUser?.email ?? ""
     
-    let userService = CurrentUserService()
+    let uid = Auth.auth().currentUser?.uid ?? ""
+    
+    private let storage = Storage.storage()
+    
+    
+    
+    
+    @objc func getAvatar() {
+        
+        // Create a reference to the file you want to download
+        let avatarRef = storage.reference().child("avatars/\(uid)/avatar.png")
+        
+        // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
+        avatarRef.getData(maxSize: 1 * 2048 * 2048) { data, error in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                // Data for "images/island.jpg" is returned
+                let image = UIImage(data: data!)
+                self.avatarImageView.image = image
+            }
+        }
+    }
     
     private enum LocalizedKeys: String {
         case setYourStatus = "setYourStatus"
         case setStatus = "setStatus"
     }
     
-    private lazy var avatarImageView: UIImageView = {
+    @objc func selectAvatar() {
+        print("select avatar is pushed")
+    }
+    
+    public lazy var avatarImageView: UIImageView = {
         let avatarImageView = UIImageView()
-        avatarImageView.image = userService.user.avatar
         avatarImageView.layer.masksToBounds = true
         avatarImageView.layer.cornerRadius = 50
         avatarImageView.layer.borderWidth = 3
@@ -24,7 +55,7 @@ class ProfileHeaderView: UIView {
     
     private lazy var fullNameLabel: UILabel = {
         let fullNameLabel = UILabel()
-        fullNameLabel.text = userService.user.fullName
+        fullNameLabel.text = userID
         fullNameLabel.font = UIFont.boldSystemFont(ofSize: 18)
         fullNameLabel.translatesAutoresizingMaskIntoConstraints = false
         return fullNameLabel
@@ -32,7 +63,7 @@ class ProfileHeaderView: UIView {
     
     private lazy var statusLabel: UILabel = {
         let statusLabel = UILabel()
-        statusLabel.text = userService.user.status
+        statusLabel.text = ""
         statusLabel.textColor = UIColor.gray
         statusLabel.font = UIFont.systemFont(ofSize: 14)
         statusLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -50,7 +81,6 @@ class ProfileHeaderView: UIView {
         statusTextField.layer.cornerRadius = 12
         statusTextField.textColor = UIColor.createColor(lightMode: .black, darkMode: .white)
         statusTextField.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        statusTextField.addTarget(self, action: #selector(statusTextChanged(_:)), for: .editingChanged)
         statusTextField.placeholder = ~LocalizedKeys.setYourStatus.rawValue
         
         statusTextField.indent(size: 10)
@@ -61,8 +91,8 @@ class ProfileHeaderView: UIView {
     private lazy var setStatusButton: CustomButton = {
         let setStatusButton = CustomButton(title: ~LocalizedKeys.setStatus.rawValue, titleColor: .white)
         setStatusButton.backgroundColor = .systemBlue
-//        setStatusButton.setTitle("Set status", for: .normal)
-//        setStatusButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        //        setStatusButton.setTitle("Set status", for: .normal)
+        //        setStatusButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         setStatusButton.translatesAutoresizingMaskIntoConstraints = false
         setStatusButton.layer.cornerRadius = 4
         setStatusButton.layer.shadowOffset = CGSize(width: 4, height: 4)
@@ -72,7 +102,10 @@ class ProfileHeaderView: UIView {
         return setStatusButton
     }()
     
+    
+    
     func layout() {
+        
         addSubview(avatarImageView)
         addSubview(fullNameLabel)
         addSubview(setStatusButton)
@@ -84,19 +117,19 @@ class ProfileHeaderView: UIView {
             avatarImageView.topAnchor.constraint(equalTo: topAnchor, constant: 16),
             avatarImageView.widthAnchor.constraint(equalToConstant: 100),
             avatarImageView.heightAnchor.constraint(equalToConstant: 100),
-        
+            
             fullNameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 16),
             fullNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             fullNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 27),
-        
+            
             setStatusButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             setStatusButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             setStatusButton.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 16),
             setStatusButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
-        
+            
             statusLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 16),
             statusLabel.topAnchor.constraint(equalTo: fullNameLabel.bottomAnchor, constant: 5),
-        
+            
             statusTextField.widthAnchor.constraint(equalTo: widthAnchor, constant: -148),
             statusTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 132),
             statusTextField.bottomAnchor.constraint(equalTo: setStatusButton.topAnchor, constant: -16),
@@ -107,32 +140,63 @@ class ProfileHeaderView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .systemGray6
+        getAvatar()
         layout()
         buttonAction()
+        NotificationCenter.default.addObserver(self, selector: #selector(getAvatar), name: NSNotification.Name("avatarLoaded"), object: nil)
+        loadStatus()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func buttonAction() {
-        setStatusButton.action = { [weak self] in
-            print("Status")
-            self!.statusLabel.text = self!.statusTextField.text
-            
+    func loadStatus() {
+        
+        
+        let db = Firestore.firestore()
+        
+        
+        db.collection(uid).getDocuments { querySnapshot, error in
+            guard error == nil else {
+                print(error!.localizedDescription)
+                return
+            }
+            guard let querySnapshot else {
+                print("querySnapshot = nil")
+                return
+            }
+            for document in querySnapshot.documents {
+                let status = document.data()["status"] as? String ?? ""
+                self.statusLabel.text = status
+            }
         }
     }
     
-    @objc func statusTextChanged(_ textField: UITextField) {
-        statusText = textField.text ?? ""
-        print(statusText)
+    func buttonAction() {
+        setStatusButton.action = { [weak self] in
+            let status = self?.statusTextField.text! ?? ""
+            
+            let db = Firestore.firestore()
+            db.collection(self!.uid).document("status").setData(["status" : status]) { err in
+                if let err = err {
+                    print("Error writing document: \(err)")
+                } else {
+                    print("Document successfully written!")
+                }
+            }
+            self!.loadStatus()
+            self?.statusTextField.text = ""
+        }
+        
+        //    @objc func buttonPressed() {
+        //        print("Status")
+        //        statusLabel.text = statusTextField.text
+        //    }
     }
-    
-//    @objc func buttonPressed() {
-//        print("Status")
-//        statusLabel.text = statusTextField.text
-//    }
 }
-
-
-
+    
+    
+    
+    
+    

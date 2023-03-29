@@ -1,4 +1,5 @@
 import UIKit
+import Firebase
 
 class MainTabbarViewController: UITabBarController {
     
@@ -10,7 +11,6 @@ class MainTabbarViewController: UITabBarController {
 //    }
     
 
-    private let feedVC = Factory(navigatonController: UINavigationController(), flow: .feedVC)
     private let loginVC = Factory(navigatonController: UINavigationController(), flow: .loginVC)
     private let mapVC = Factory(navigatonController: UINavigationController(), flow: .mapVC)
     private let authVC = Factory(navigatonController: UINavigationController(), flow: .authVC)
@@ -24,8 +24,11 @@ class MainTabbarViewController: UITabBarController {
     }
     
     private func setupControllers() {
-        viewControllers = [authVC.navigationController, feedVC.navigationController, mapVC.navigationController, loginVC.navigationController]
+        if Auth.auth().currentUser == nil {
+            viewControllers = [loginVC.navigationController]
+        } else {
+            viewControllers = [authVC.navigationController, loginVC.navigationController]
+        }
     }
-
     
 }

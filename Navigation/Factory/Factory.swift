@@ -3,7 +3,6 @@ import UIKit
 
 final class Factory {
     enum Flow {
-        case feedVC
         case loginVC
         case mapVC
         case authVC
@@ -21,10 +20,6 @@ final class Factory {
     func startModule() {
         switch flow {
             
-        case .feedVC:
-            let feedViewController = FeedViewController()
-            navigationController.tabBarItem = UITabBarItem(title: "feed", image: UIImage(systemName: "person.fill"), tag: 0)
-            navigationController.setViewControllers([feedViewController], animated: true)
         case .loginVC:
             let loginViewController = LogInViewController()
             let loginInspectorFactory = MakeLoginInspector()

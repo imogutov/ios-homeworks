@@ -1,12 +1,15 @@
 import Foundation
 import Firebase
+import FirebaseFirestore
 
 protocol LoginViewControllerDelegate {
     func checkCredentials(email: String, password: String, complition: @escaping (String) -> Void)
     func signUp(email: String, password: String, complition: @escaping (String) -> Void)
 }
 
-class LoginInspector: CheckerServiceProtocol, LoginViewControllerDelegate {
+class LoginInspector: LoginViewControllerDelegate {
+    
+    let db = Firestore.firestore()
     
     func checkCredentials(email: String, password: String, complition: @escaping (String) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { result, error in
@@ -29,19 +32,19 @@ class LoginInspector: CheckerServiceProtocol, LoginViewControllerDelegate {
                     complition(res)
                 }
             } else {
-                complition("Success registration")
+                let uid = result?.user.uid ?? "unknownUser"
+                
+                self.db.collection(uid).document("status").setData(["status": "status not set"]) { err in
+                    if let err = err {
+                        print("Error writing document: \(err)")
+                    } else {
+                        print("Document successfully written!")
+                    }
+                    complition("Success registration")
+                }
             }
         }
     }
-    
-    
-    
-    
-    //    let checker = Checker.shared
-    //
-    //    func checkLogin(login: String, password: String) -> Bool {
-    //        checker.chckLogin(login: login, password: password)
-    //    }
 }
 
 

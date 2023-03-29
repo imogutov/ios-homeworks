@@ -1,18 +1,27 @@
 
 import UIKit
-import iOSIntPackage
+import Firebase
+import FirebaseStorage
+
 
 class PhotosViewController: UIViewController {
-    
-    //    private var imagePublisherFacade: ImagePublisherFacade?
+
     private lazy var photos = userImages
+    
+    private let urlsArray: [String] = []
+    
+    private let storage = Storage.storage().reference()
+    
+    let uid = Auth.auth().currentUser?.uid ?? "uid"
     
     private enum LocalizedKeys: String {
         case photoGallery = "photoGallery"
     }
     
-    private var timer: Timer?
-    private var countInMilliseconds: Double = 0
+    var photoImageView: UIImageView = {
+        let photoImageView = UIImageView()
+        return photoImageView
+    }()
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -24,43 +33,10 @@ class PhotosViewController: UIViewController {
         return collectionView
     }()
     
-    override func viewWillAppear(_ animated: Bool) {
-        //        imagePublisherFacade?.subscribe(self)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         layout()
-        //        imagePublisherFacade = ImagePublisherFacade()
-//        startTimer()
-//        ImageProcessor().processImagesOnThread(sourceImages: photos, filter: .colorInvert, qos: .utility) { filtres in
-//            self.photos.removeAll()
-//            for photo in filtres {
-//                guard let photo = photo else { return }
-//                self.photos.append(UIImage(cgImage: photo))
-//            }
-//            DispatchQueue.main.async {
-//                self.stopTimer()
-//                self.collectionView.reloadData()
-//            }
-//        }
-    }
-    
-    private func startTimer(){
-        timer = Timer.scheduledTimer(timeInterval: 0.01,
-                                     target: self,
-                                     selector: #selector(counter),
-                                     userInfo: nil,
-                                     repeats: true)
-    }
-    
-    private func stopTimer(){
-        timer?.invalidate()
-        print("\(countInMilliseconds) seconds")
-    }
-    
-    @objc private func counter() {
-        countInMilliseconds += 0.01
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Сменить аватар", style: .plain, target: self, action: #selector(photoButtonPressed))
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -80,6 +56,14 @@ class PhotosViewController: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         ])
+    }
+    
+    @objc private func photoButtonPressed() {
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.delegate = self
+        imagePickerController.sourceType = .photoLibrary
+        imagePickerController.allowsEditing = true
+        present(imagePickerController, animated: true, completion: nil)
     }
 }
 
@@ -118,6 +102,8 @@ extension PhotosViewController: UICollectionViewDataSource {
     }
 }
 
+
+
 //extension PhotosViewController: ImageLibrarySubscriber {
 //    func receive(images: [UIImage]) {
 //        photos = images
@@ -125,5 +111,38 @@ extension PhotosViewController: UICollectionViewDataSource {
 //    }
 //}
 
-
+extension PhotosViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        picker.dismiss(animated: true, completion: nil)
+        guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
+//        photoImageView.image = image
+        guard let imageData = image.pngData() else { return }
+        
+        
+        
+        
+        let uploadTask = storage.child("avatars/\(uid)/avatar.png").putData(imageData, metadata: nil, completion: { _, error in
+            guard error == nil else {
+                print("Ошибка загрузки")
+                return
+            }
+            self.storage.child("avatars/\(self.uid)/avatar.png").downloadURL(completion: { url, error in
+                guard let url = url, error == nil else { return }
+                
+                let urlString = url.absoluteString
+                print("Download URL: \(urlString)")
+                UserDefaults.standard.set(urlString, forKey: "avatarURL")
+                UserDefaults.standard.set([urlString], forKey: "\(self.uid)")
+                print(UserDefaults.standard.value(forKey: "\(self.uid)") ?? "nil")
+            })
+        })
+        
+        uploadTask.resume()
+        uploadTask.observe(.success, handler: {_ in
+            let profileViewController = ProfileViewController()
+            self.navigationController?.pushViewController(profileViewController, animated: true)
+        })
+    }
+}
 
