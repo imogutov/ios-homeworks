@@ -33,7 +33,7 @@ class LoginInspector: LoginViewControllerDelegate {
                 }
             } else {
                 let uid = result?.user.uid ?? "unknownUser"
-                
+
                 self.db.collection(uid).document("status").setData(["status": "status not set"]) { err in
                     if let err = err {
                         print("Error writing document: \(err)")

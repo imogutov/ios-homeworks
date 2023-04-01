@@ -50,6 +50,8 @@ class FirestoreManager {
     
     var posts: [Post] = []
     
+    
+    
     func reloadPosts(completion: @escaping (_ errorString: String?)->() ) {
         firebaseDB.collection("posts").getDocuments { querySnaphot, error in
             if let error {
@@ -66,7 +68,10 @@ class FirestoreManager {
             for document in querySnaphot.documents {
                 let post = Post(document: document)
                 self.posts.append(post)
+                let sortedByValueDictionary = self.posts.sorted { $0.date > $1.date }
+                self.posts = sortedByValueDictionary
             }
+            
             completion(nil)
         }
     }

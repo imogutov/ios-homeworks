@@ -18,6 +18,12 @@ class CreatePostViewController: UIViewController {
     
     var imageUrlString = ""
     
+    private lazy var previewImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
     private lazy var userNameLabel: UILabel = {
         let label = UILabel()
         label.text = Auth.auth().currentUser?.email ?? ""
@@ -80,11 +86,36 @@ class CreatePostViewController: UIViewController {
             buttonPublishPost.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20)
         ])
         
+        view.addSubview(previewImageView)
+        NSLayoutConstraint.activate([
+            previewImageView.topAnchor.constraint(equalTo: buttonPublishPost.bottomAnchor, constant: 20),
+            previewImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            previewImageView.heightAnchor.constraint(equalToConstant: 50),
+            previewImageView.widthAnchor.constraint(equalToConstant: 50)
+            ])
+        
         view.addSubview(buttonAddImage)
         NSLayoutConstraint.activate([
-            buttonAddImage.topAnchor.constraint(equalTo: buttonPublishPost.bottomAnchor, constant: 20),
+            buttonAddImage.topAnchor.constraint(equalTo: previewImageView.bottomAnchor, constant: 20),
             buttonAddImage.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20)
         ])
+    }
+    
+    func getImage() {
+        
+        // Create a reference to the file you want to download
+        let previewImageRef = storage.child("pictures/\(imageUrlString).png")
+        
+        // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
+        previewImageRef.getData(maxSize: 1 * 2048 * 2048) { data, error in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                // Data for "images/island.jpg" is returned
+                let image = UIImage(data: data!)
+                self.previewImageView.image = image
+            }
+        }
     }
     
     private func buttonAction() {
@@ -110,9 +141,10 @@ class CreatePostViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         layout()
         buttonAction()
-        view.backgroundColor = .systemGreen
+        navigationController?.navigationBar.isHidden = false
     }
 }
 
@@ -125,6 +157,7 @@ extension CreatePostViewController: UINavigationControllerDelegate, UIImagePicke
         guard let imageData = image.pngData() else { return }
         
         let uuid = UUID().uuidString
+        self.imageUrlString = uuid
         
         let uploadTask = storage.child("pictures/\(uuid).png").putData(imageData, metadata: nil) { _, error in
             guard error == nil else {
@@ -140,10 +173,13 @@ extension CreatePostViewController: UINavigationControllerDelegate, UIImagePicke
 //                self.imageUrlString = urlString
 //            })
             print(uuid)
-            self.imageUrlString = uuid
+            
         }
         
         uploadTask.resume()
+        uploadTask.observe(.success, handler: {_ in
+            self.getImage()
+        })
     }
 }
 

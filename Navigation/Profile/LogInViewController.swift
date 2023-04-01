@@ -166,6 +166,7 @@ class LogInViewController: UIViewController {
                 self?.delegate?.checkCredentials(email: self!.emailTextField.text!, password: self!.passwordTextField.text!) { result in
                     if result == "Success authorization" {
                         
+                        
                         let profileViewController = ProfileViewController()
                         self?.navigationController?.pushViewController(profileViewController, animated: true)
                         

@@ -22,7 +22,7 @@ class PostTableViewCell: UITableViewCell {
     private let imagePostView: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.contentMode = .scaleAspectFit
+        view.contentMode = .scaleAspectFill
         view.backgroundColor = .black
         
         return view
@@ -66,7 +66,7 @@ class PostTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         layout()
-        getImage()
+//        getImage()
     }
     
     required init?(coder: NSCoder) {
@@ -125,6 +125,9 @@ class PostTableViewCell: UITableViewCell {
         stringUrlImage = post.image
 //        viewsLabel.text = "\(~LocalizedKeys.views.rawValue): \(post.views)"
 //        imagePostView.image = filterImage(imagePostView.image!)
+        getImage()
+        
+        
     }
     
     private func layout() {

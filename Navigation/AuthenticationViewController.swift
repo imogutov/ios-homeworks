@@ -102,7 +102,7 @@ class AuthenticationViewController: UIViewController {
         setupButton()
     }
     
-//    override func viewWillDisappear(_ animated: Bool) {
-//        self.navigationController?.tabBarController?.viewControllers?.remove(at: 0)
-//    }
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.tabBarController?.viewControllers?.remove(at: 0)
+    }
 }

@@ -8,9 +8,9 @@ import FirebaseFirestore
 
 class ProfileHeaderView: UIView {
 
-    let userID = Auth.auth().currentUser?.email ?? ""
+    let userID = Auth.auth().currentUser?.email ?? "123333@we.ru"
     
-    let uid = Auth.auth().currentUser?.uid ?? ""
+    let uid = Auth.auth().currentUser?.uid ?? "mHd5qbFLKKTtEVRm3buLGEni9Jm2"
     
     private let storage = Storage.storage()
     

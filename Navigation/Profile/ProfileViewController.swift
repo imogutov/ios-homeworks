@@ -53,6 +53,7 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = true
+        tabBarController?.tabBar.isHidden = false
         layout()
         view.backgroundColor = UIColor.createColor(lightMode: .white, darkMode: .black)
     }
@@ -141,10 +142,21 @@ extension ProfileViewController: UITableViewDataSource {
         }
         if section == 1 {
             return 1
-        } else {
-            return firestoreManager.posts.count
         }
+        
+        if section == 2 {
+            
+            let user = Auth.auth().currentUser?.email ?? ""
+            let myPosts = firestoreManager.posts.filter { $0.author == user }
+            
+            if myPosts.count != 0 {
+                return myPosts.count
+            }
+        }
+        return 1
     }
+    
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PhotosTableViewCell.self), for: indexPath) as! PhotosTableViewCell
@@ -156,17 +168,26 @@ extension ProfileViewController: UITableViewDataSource {
             cell.textLabel?.text = "Добавить пост"
             return cell
         } else {
-//            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-//            let post = firestoreManager.posts[indexPath.row]
-//            let dateFormatter = DateFormatter()
-//            cell.textLabel?.text = "\(post.author) - \(post.description)"
-//            cell.detailTextLabel?.text = dateFormatter.string(from: post.date)
-//            return cell
+            //            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+            //            let post = firestoreManager.posts[indexPath.row]
+            //            let dateFormatter = DateFormatter()
+            //            cell.textLabel?.text = "\(post.author) - \(post.description)"
+            //            cell.detailTextLabel?.text = dateFormatter.string(from: post.date)
+            //            return cell
             
-                        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PostTableViewCell.self), for: indexPath) as! PostTableViewCell
-                        cell.setupCell(post: firestoreManager.posts[indexPath.row])
-            
-                        return cell
+            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PostTableViewCell.self), for: indexPath) as! PostTableViewCell
+            let user = Auth.auth().currentUser?.email ?? ""
+            let myPosts = firestoreManager.posts.filter { $0.author == user }
+            if myPosts.count != 0 {
+                cell.setupCell(post: myPosts[indexPath.row])
+                
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+                
+                cell.textLabel?.text = "Добавьте свой первый пост"
+                
+            }
+            return cell
         }
     }
     
